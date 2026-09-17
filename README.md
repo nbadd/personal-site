@@ -1,48 +1,30 @@
-# Nikhil Baddam — personal site
+# Writings
 
-A dependency-free, static personal site. It can be hosted on Vercel, Netlify, GitHub Pages, Cloudflare Pages, or any plain web server.
+A clean, dependency-free static site with a single Writings tab and the essay
+“What we lose in the pursuit of insight.”
 
-## Preview locally
+## Preview
 
-From this folder:
+Open `index.html` directly in a browser, or serve this directory with any static web server.
 
-```bash
-python3 -m http.server 8000
-```
+## Edit
 
-Then open `http://localhost:8000`.
+- `index.html`: article thumbnail grid and navigation.
+- `what-we-lose-in-the-pursuit-of-insight.html`: full essay text and links.
+- `styles.css`: responsive layout and typography.
+- `assets/mountain-landscape.png`: thumbnail and faded article background.
 
-## Personalize first
+To add an article, create its HTML page and add a linked image-and-title card
+to the article grid in `index.html`.
 
-Edit `site.js` and fill in:
+The previous writing, projects, and adventures URLs redirect to the homepage.
+No JavaScript or build step is required.
 
-- `email`
-- `linkedin`
-- `x`
-- `github`
+## Deploy on Netlify
 
-Then edit the page copy directly in:
+Import the GitHub repository `nbadd/personal-site` into Netlify and select
+`main` as the production branch. The `netlify.toml` file sets the publish
+directory to the repository root. Leave the build command empty.
 
-- `index.html`
-- `writing.html`
-- `projects.html`
-- `adventures.html`
-
-## Deploy on Vercel
-
-1. Create a GitHub repository and push this folder.
-2. In Vercel, choose **Add New → Project** and import the repository.
-3. Framework preset: **Other**. There is no build command and no output directory required for a static project.
-4. Deploy.
-5. Add a custom domain in **Project Settings → Domains** if you want one.
-
-Every later push to the main branch will redeploy automatically.
-
-## Good next changes
-
-- Replace placeholder profile links in `site.js`.
-- Add a real CV PDF and link it from the homepage.
-- Add personal photos/artifacts to the timeline.
-- Turn draft writing rows into real article pages.
-- Replace placeholder project cards with project detail pages.
-- Add lightweight analytics only if you actually want it.
+After connecting the repository, pushes to `main` deploy automatically.
+A custom domain can be added in the Netlify project’s domain settings.
