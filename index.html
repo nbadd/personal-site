@@ -3,23 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Essays on mathematics, technology, and discovery." />
+  <meta name="description" content="Writing on mathematics, technology, and discovery, alongside independent projects." />
   <title>Writings</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="collection.js" defer></script>
 </head>
 <body class="writings-page">
-  <a class="skip-link" href="#writings">Skip to writings</a>
+  <a class="skip-link" href="#writings">Skip to content</a>
   <div class="site-shell">
+    <nav class="collection-navigation" aria-label="Collections">
+      <div class="collection-switcher" role="tablist" aria-label="Browse" data-active="writing">
+        <span class="collection-indicator" aria-hidden="true"></span>
+        <button class="collection-tab" id="writing-tab" type="button" role="tab" aria-selected="true" aria-controls="writing-panel" data-collection="writing">Writing</button>
+        <button class="collection-tab" id="projects-tab" type="button" role="tab" aria-selected="false" aria-controls="projects-panel" data-collection="projects" tabindex="-1">Projects</button>
+      </div>
+    </nav>
     <main id="writings">
-      <h1 class="visually-hidden">Writings</h1>
-      <ul class="article-grid">
-        <li>
-          <a class="article-card" href="what-we-lose-in-the-pursuit-of-insight.html">
-            <img src="assets/mountain-landscape.png" width="1456" height="971" alt="" />
-            <h2>What we lose in the pursuit of insight</h2>
-          </a>
-        </li>
-      </ul>
+      <h1 class="visually-hidden">Writing and projects</h1>
+      <section class="collection-panel" id="writing-panel" role="tabpanel" aria-labelledby="writing-tab">
+        <ul class="article-grid">
+          <li>
+            <a class="article-card" href="what-we-lose-in-the-pursuit-of-insight.html">
+              <img src="assets/mountain-landscape.png" width="1456" height="971" alt="" />
+              <h2>What we lose in the pursuit of insight</h2>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="collection-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" hidden>
+        <ul class="article-grid">
+          <li>
+            <a class="article-card" href="/projects/midterm-sentiment/">
+              <img src="assets/midterm-sentiment.svg" width="960" height="600" alt="" />
+              <h2>Midterm Sentiment</h2>
+            </a>
+          </li>
+        </ul>
+      </section>
     </main>
   </div>
 </body>

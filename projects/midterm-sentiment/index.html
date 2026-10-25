@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<base href="/projects/midterm-sentiment/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<title>Midterm Sentiment | Nikhil Baddam</title>
+<meta name="description" content="Explore weekly candidate-directed sentiment across six 2026 Senate races, with saved X samples classified by Jev.">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="process.css">
+<script defer src="app.js"></script>
+<script defer src="process.js"></script>
+</head>
+<body>
+<div id="midterm-sentiment-mockup" data-results-url="./weekly-results.json" data-projects-url="/#projects"><div class="ms-app ms-trend" aria-label="Senate sentiment dashboard"></div></div>
+<template id="process-template"><section id="process-workflow" class="pw" aria-labelledby="pw-title">
+<header class="pw-heading">
+  <h2 id="pw-title">How the sentiment signal is built.</h2>
+</header>
+
+<section class="pw-details" aria-label="Detailed sentiment methodology">
+  <article class="pw-detail-card pw-detail-wide">
+    <header class="pw-detail-card-heading"><span class="pw-detail-number">01—02</span><div><p class="pw-detail-kicker">Collection and filtering</p><h4>Find the right conversation.</h4></div></header>
+    <div class="pw-detail-columns">
+      <div>
+        <div class="pw-query-terms" aria-label="Candidate search terms"><span>Candidate name</span><i>or</i><span>Known aliases</span><i>or</i><span>Official @handle</span></div>
+        <p>Ambiguous names can require extra context. A match identifies a candidate mention; it does not establish where the author lives.</p>
+      </div>
+      <div><p>The weekly read allowance is spread across seven UTC days for each candidate. Within each day, collection follows newest-first pages until the allowance or available results run out.</p><p>Check language, relevance, and timestamps again. Deduplicate candidate/post pairs within each week, with at most three accepted posts per author per candidate per week.</p></div>
+    </div>
+  </article>
+
+  <article class="pw-detail-card pw-detail-wide">
+    <header class="pw-detail-card-heading"><span class="pw-detail-number">03</span><div><p class="pw-detail-kicker">Candidate-directed classification</p><h4>Ask one question about one target.</h4></div><span class="pw-detail-model">Jev 1.14.0</span></header>
+    <div class="pw-detail-columns pw-detail-classification">
+      <div><blockquote class="pw-detail-question">“What stance does this text express toward the named candidate?”</blockquote><p>Jev receives the text and target, then returns a label, four class probabilities, and confidence. A post mentioning two candidates can produce two judgments.</p><p>Evaluate quotes, sarcasm, and mixed claims in context. Negative tone may defend a candidate. Do not infer the author’s identity, beliefs, or likely vote.</p></div>
+      <div class="pw-detail-labels" aria-label="Four classification criteria">
+        <div><span class="pw-label-dot pw-dot-for"></span><h5>For</h5><p>Praise, support, approval, or defense.</p></div>
+        <div><span class="pw-label-dot pw-dot-against"></span><h5>Against</h5><p>Criticism, opposition, or disapproval.</p></div>
+        <div><span class="pw-label-dot pw-dot-neutral"></span><h5>Neutral</h5><p>Information or quotation without endorsing a stance.</p></div>
+        <div><span class="pw-label-dot pw-dot-unclear"></span><h5>Unclear</h5><p>Ambiguous target, mixed stance, or missing context.</p></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="pw-detail-card">
+    <header class="pw-detail-card-heading"><span class="pw-detail-number">04</span><div><p class="pw-detail-kicker">Confidence and routing</p><h4>Withhold a directional label when uncertain.</h4></div></header>
+    <div class="pw-detail-equation"><span>Confidence relationship</span><code>(highest probability − 0.25) ÷ 0.75</code></div>
+    <p>The 0.25 baseline reflects four equally likely classes. Jev’s returned confidence is checked against this relationship, allowing for rounding.</p>
+    <div class="pw-detail-gate"><div><strong>Below 0.50</strong><span>Final label → unclear</span></div><div><strong>0.50 or above</strong><span>Keep Jev’s chosen label</span></div></div>
+    <p class="pw-detail-footnote">The gate uses returned confidence. Text over 1,500 UTF-8 bytes also routes to unclear, without truncation or a Jev request.</p>
+  </article>
+
+  <article class="pw-detail-card">
+    <header class="pw-detail-card-heading"><span class="pw-detail-number">05</span><div><p class="pw-detail-kicker">Aggregation and display</p><h4>Count judgments, then calculate the balance.</h4></div></header>
+    <div class="pw-detail-equation"><span>Net sentiment</span><code>100 × (For − Against) ÷ (For + Against + Neutral)</code></div>
+    <p>Sum each week’s label counts before calculating its score. Unclear stays visible beside the score, but is excluded from its denominator. Weekly scores require at least 20 classified judgments.</p>
+    <div class="pw-detail-measures"><p><strong>Gaps stay gaps.</strong> Uncollected dates do not become neutral or zero.</p><p><strong>Volume is separate.</strong> Mention counts come from separate X requests; they are not the number scored.</p></div>
+    <p class="pw-detail-footnote">The −100 to +100 scale describes sampled text. It is not vote share.</p>
+  </article>
+
+</section>
+
+  <div class="pw-section-heading pw-calculator-heading">
+    <div><p class="pw-eyebrow">From labels to a score</p><h3>See exactly what goes into the number.</h3></div>
+    <span class="pw-illustrative">Editable illustration</span>
+  </div>
+
+  <section class="pw-calculator pw-card" aria-labelledby="pw-calculator-title">
+    <div class="pw-count-inputs">
+      <h4 id="pw-calculator-title">Candidate judgments</h4>
+      <p class="pw-helper">Change the counts to see how the score responds.</p>
+      <div class="pw-count-grid">
+        <label class="pw-count pw-count-for" for="pw-count-for"><span><i class="pw-label-dot pw-dot-for"></i>For</span><input id="pw-count-for" data-pw-count="for" type="number" min="0" max="10000" step="1" value="42" inputmode="numeric"></label>
+        <label class="pw-count pw-count-against" for="pw-count-against"><span><i class="pw-label-dot pw-dot-against"></i>Against</span><input id="pw-count-against" data-pw-count="against" type="number" min="0" max="10000" step="1" value="18" inputmode="numeric"></label>
+        <label class="pw-count pw-count-neutral" for="pw-count-neutral"><span><i class="pw-label-dot pw-dot-neutral"></i>Neutral</span><input id="pw-count-neutral" data-pw-count="neutral" type="number" min="0" max="10000" step="1" value="20" inputmode="numeric"></label>
+        <label class="pw-count pw-count-unclear" for="pw-count-unclear"><span><i class="pw-label-dot pw-dot-unclear"></i>Unclear</span><input id="pw-count-unclear" data-pw-count="unclear" type="number" min="0" max="10000" step="1" value="20" inputmode="numeric"></label>
+      </div>
+      <div class="pw-stack" role="img" aria-label="100 judgments: 42 for, 18 against, 20 neutral, 20 unclear" data-pw-stack><i data-pw-stack-segment="for"></i><i data-pw-stack-segment="against"></i><i data-pw-stack-segment="neutral"></i><i data-pw-stack-segment="unclear"></i></div>
+      <div class="pw-count-summary"><span><strong data-pw-total>100</strong> total judgments</span><span><strong data-pw-unclear>20</strong> unclear, excluded from score</span></div>
+      <p class="pw-input-hint">Whole numbers from 0 to 10,000 per label.</p>
+    </div>
+    <div class="pw-score-output" aria-live="polite" aria-atomic="true">
+      <div class="pw-score-topline"><span class="pw-small-label">Net sentiment</span><span class="pw-sample-badge"><strong data-pw-classified>80</strong> classified</span></div>
+      <div class="pw-score-value" data-pw-score>+30</div>
+      <p class="pw-score-description" data-pw-score-description>More supportive than critical judgments in this sample.</p>
+      <div class="pw-net-gauge" role="img" aria-label="Net sentiment +30 on a scale from minus 100 to plus 100" data-pw-gauge><div class="pw-gauge-track"><i class="pw-gauge-zero"></i><span data-pw-gauge-marker></span></div><div class="pw-gauge-labels"><span>−100<br><small>All against</small></span><span>0<br><small>Balanced</small></span><span>+100<br><small>All for</small></span></div></div>
+      <div class="pw-formula"><span>100 ×</span><span class="pw-fraction"><span>For − Against</span><span>For + Against + Neutral</span></span><strong data-pw-worked-formula>= +30</strong></div>
+      <p class="pw-worked-counts" data-pw-worked-counts>100 × (42 − 18) ÷ (42 + 18 + 20) = +30</p>
+      <p class="pw-score-note" data-pw-score-note>Unclear judgments stay visible, but do not enter the denominator. This is net sentiment, not vote share.</p>
+    </div>
+  </section>
+
+</section>
+</template>
+<noscript>This dashboard needs JavaScript to show charts and the methodology illustration.</noscript>
+</body>
+</html>

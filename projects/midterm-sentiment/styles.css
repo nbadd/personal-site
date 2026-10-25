@@ -1,0 +1,172 @@
+
+#midterm-sentiment-mockup {width:100%;}
+#midterm-sentiment-mockup .ms-app {
+  --ms-bg:light-dark(#f5f6f2,#141b19);--ms-panel:light-dark(#ffffff,#1c2522);
+  --ms-ink:light-dark(#1c302b,#edf2ee);--ms-sub:light-dark(#5b6b64,#b0beb5);
+  --ms-rule:light-dark(#dce3db,#37473e);--ms-soft:light-dark(#eaf0e8,#25362d);
+  --ms-a:light-dark(#267760,#71c3a3);--ms-b:light-dark(#776492,#b5a1d0);
+  --ms-for:light-dark(#3d886d,#72b99b);--ms-against:light-dark(#b87b4e,#d49a6d);
+  --ms-neutral:light-dark(#a2b0a8,#87998c);--ms-unclear:light-dark(#d3d8cf,#56675b);
+  --ms-radius:15px;--ms-gap:20px;
+  color-scheme:light dark;color:var(--ms-ink);background:var(--ms-bg);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px;line-height:1.45;min-height:970px;overflow:clip;
+}
+#midterm-sentiment-mockup .ms-app * {box-sizing:border-box;}
+#midterm-sentiment-mockup .ms-top {display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding:19px 24px;background:var(--ms-panel);border-bottom:1px solid var(--ms-rule);}
+#midterm-sentiment-mockup .ms-brand {display:flex;align-items:center;gap:10px;font-size:17px;font-weight:600;letter-spacing:-.5px;}
+#midterm-sentiment-mockup .ms-mark {width:30px;height:30px;display:grid;place-items:center;background:var(--ms-a);color:var(--ms-panel);border-radius:9px;font-size:17px;}
+#midterm-sentiment-mockup .ms-topnav {display:flex;align-items:center;gap:20px;margin-left:auto;}
+#midterm-sentiment-mockup .ms-topnav span {font-size:13px;}
+#midterm-sentiment-mockup .ms-topnav a {font-size:13px;color:var(--ms-sub);text-decoration:none;}
+#midterm-sentiment-mockup .ms-state-control {display:flex;gap:7px;align-items:center;}
+#midterm-sentiment-mockup .ms-state-control label {color:var(--ms-sub);font-size:12px;}
+#midterm-sentiment-mockup select {min-height:36px;background:var(--ms-panel);color:var(--ms-ink);border:1px solid var(--ms-rule);border-radius:8px;font-family:inherit;font-size:14px;padding:6px 24px 6px 10px;max-width:100%;}
+#midterm-sentiment-mockup button {font:inherit;color:var(--ms-ink);}
+#midterm-sentiment-mockup .ms-content {padding:24px;display:grid;gap:var(--ms-gap);}
+#midterm-sentiment-mockup .ms-hero {display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+#midterm-sentiment-mockup .ms-eyebrow {font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ms-sub);font-weight:600;margin-bottom:7px;}
+#midterm-sentiment-mockup h1 {font-size:30px;font-weight:600;letter-spacing:-1px;line-height:1.15;margin:0;}
+#midterm-sentiment-mockup h2 {font-size:16px;font-weight:600;letter-spacing:-.2px;margin:0;}
+#midterm-sentiment-mockup .ms-demo-note {font-size:12px;color:var(--ms-sub);margin-top:-9px;}
+#midterm-sentiment-mockup .ms-board {display:grid;gap:var(--ms-gap);}
+#midterm-sentiment-mockup .ms-candidates {display:grid;grid-template-columns:1fr 1fr;gap:var(--ms-gap);}
+#midterm-sentiment-mockup .ms-candidate {background:var(--ms-panel);border:1px solid var(--ms-rule);border-radius:var(--ms-radius);padding:18px 20px;min-width:0;}
+#midterm-sentiment-mockup .ms-candidate-header {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+#midterm-sentiment-mockup .ms-person {display:flex;align-items:center;gap:10px;min-width:0;}
+#midterm-sentiment-mockup .ms-initials {width:35px;height:35px;display:grid;place-items:center;background:var(--ms-soft);border-radius:50%;font-size:11px;font-weight:600;flex-shrink:0;}
+#midterm-sentiment-mockup .ms-name {font-size:16px;font-weight:600;letter-spacing:-.25px;overflow-wrap:anywhere;}
+#midterm-sentiment-mockup .ms-party {color:var(--ms-sub);font-size:11px;}
+#midterm-sentiment-mockup .ms-scoreline {display:flex;gap:15px;align-items:baseline;justify-content:space-between;margin-top:16px;flex-wrap:wrap;}
+#midterm-sentiment-mockup .ms-number {font-size:34px;letter-spacing:-1.5px;font-weight:500;line-height:1.15;font-variant-numeric:tabular-nums;}
+#midterm-sentiment-mockup .ms-scorelabel {font-size:11px;color:var(--ms-sub);margin-top:3px;}
+#midterm-sentiment-mockup .ms-change {font-size:12px;color:var(--ms-sub);text-align:right;font-variant-numeric:tabular-nums;}
+#midterm-sentiment-mockup .ms-sample {font-size:11px;color:var(--ms-sub);white-space:nowrap;flex-shrink:0;font-variant-numeric:tabular-nums;line-height:23px;}
+#midterm-sentiment-mockup .ms-panel {background:var(--ms-panel);border:1px solid var(--ms-rule);border-radius:var(--ms-radius);padding:19px 20px;min-width:0;}
+#midterm-sentiment-mockup .ms-panelhead {display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;}
+#midterm-sentiment-mockup .ms-chartmeta {font-size:11px;color:var(--ms-sub);margin-top:4px;}
+#midterm-sentiment-mockup .ms-legend {display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ms-sub);margin-top:12px;}
+#midterm-sentiment-mockup .ms-legend span {display:inline-flex;align-items:center;gap:6px;}
+#midterm-sentiment-mockup .ms-series-a:before,#midterm-sentiment-mockup .ms-series-b:before {content:"";width:18px;height:0;border-top:2px solid var(--ms-a);}
+#midterm-sentiment-mockup .ms-series-b:before {border-color:var(--ms-b);border-top-style:dashed;}
+#midterm-sentiment-mockup .ms-chart {width:100%;min-width:0;margin-top:5px;}
+#midterm-sentiment-mockup .ms-chart svg {display:block;width:100%;overflow:visible;}
+#midterm-sentiment-mockup .ms-chart text {font-family:inherit;fill:var(--ms-sub);font-size:11px;}
+#midterm-sentiment-mockup .ms-chart .ms-axis-label {font-size:11px;fill:var(--ms-sub);}
+#midterm-sentiment-mockup .ms-chart .ms-value-label {fill:var(--ms-ink);font-size:12px;font-weight:500;}
+#midterm-sentiment-mockup .ms-chart line {stroke:var(--ms-rule);stroke-width:1;}
+#midterm-sentiment-mockup .ms-chart .ms-zero {stroke:var(--ms-sub);stroke-opacity:.45;}
+#midterm-sentiment-mockup .ms-chart .ms-a {stroke:var(--ms-a);fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;}
+#midterm-sentiment-mockup .ms-chart .ms-b {stroke:var(--ms-b);fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:6 4;}
+#midterm-sentiment-mockup .ms-chart .ms-point-a {fill:var(--ms-a);}
+#midterm-sentiment-mockup .ms-chart .ms-point-b {fill:var(--ms-b);}
+#midterm-sentiment-mockup .ms-mix {display:grid;gap:12px;margin-top:18px;}
+#midterm-sentiment-mockup .ms-mixrow {display:grid;grid-template-columns:135px 1fr 35px;gap:13px;align-items:center;font-size:12px;}
+#midterm-sentiment-mockup .ms-mixname {overflow-wrap:anywhere;}
+#midterm-sentiment-mockup .ms-track {display:flex;height:14px;background:var(--ms-soft);border-radius:4px;overflow:hidden;}
+#midterm-sentiment-mockup .ms-segment {height:100%;transition:width .3s ease;}
+#midterm-sentiment-mockup .ms-count {text-align:right;color:var(--ms-sub);font-variant-numeric:tabular-nums;}
+#midterm-sentiment-mockup .ms-dot {width:7px;height:7px;border-radius:2px;display:inline-block;}
+#midterm-sentiment-mockup .ms-mixfoot {font-size:11px;color:var(--ms-sub);margin-top:14px;}
+#midterm-sentiment-mockup .ms-brief .ms-board {grid-template-columns:minmax(0,1.7fr) minmax(230px,1fr);align-items:start;}
+#midterm-sentiment-mockup .ms-brief .ms-candidates {grid-template-columns:1fr;grid-column:2;grid-row:1;gap:12px;}
+#midterm-sentiment-mockup .ms-brief .ms-trendpanel {grid-column:1;grid-row:1;}
+#midterm-sentiment-mockup .ms-brief .ms-mixpanel {grid-column:1 / -1;}
+#midterm-sentiment-mockup .ms-brief .ms-candidate {padding:16px;}
+#midterm-sentiment-mockup .ms-brief .ms-scoreline {margin-top:12px;}
+#midterm-sentiment-mockup .ms-app[data-compact="true"] {--ms-gap:14px;}
+#midterm-sentiment-mockup .ms-app[data-compact="true"] .ms-content {padding:18px;}
+@media(max-width:700px){
+ #midterm-sentiment-mockup .ms-app {min-height:1130px;}
+ #midterm-sentiment-mockup .ms-top {padding:15px 17px;gap:13px;}
+ #midterm-sentiment-mockup .ms-topnav {margin-left:0;gap:16px;}
+ #midterm-sentiment-mockup .ms-state-control {margin-left:auto;}
+ #midterm-sentiment-mockup .ms-topnav .ms-nav-current {display:none;}
+ #midterm-sentiment-mockup .ms-content {padding:20px 16px;}
+ #midterm-sentiment-mockup .ms-candidates {gap:12px;}
+ #midterm-sentiment-mockup .ms-candidate {padding:16px;}
+ #midterm-sentiment-mockup .ms-brief .ms-board {display:flex;flex-direction:column;}
+ #midterm-sentiment-mockup .ms-brief .ms-candidates {display:grid;grid-template-columns:1fr 1fr;width:100%;}
+ #midterm-sentiment-mockup .ms-brief .ms-trendpanel,#midterm-sentiment-mockup .ms-brief .ms-mixpanel {width:100%;}
+ #midterm-sentiment-mockup .ms-person {align-items:flex-start;}
+ #midterm-sentiment-mockup .ms-initials {display:none;}
+ #midterm-sentiment-mockup .ms-name {font-size:15px;}
+ #midterm-sentiment-mockup .ms-change {text-align:left;}
+}
+@media(max-width:420px){
+ #midterm-sentiment-mockup .ms-app {min-height:1490px;}
+ #midterm-sentiment-mockup h1 {font-size:27px;}
+ #midterm-sentiment-mockup .ms-topnav {width:100%;justify-content:space-between;}
+ #midterm-sentiment-mockup .ms-state-control {margin-left:0;}
+ #midterm-sentiment-mockup .ms-candidates,#midterm-sentiment-mockup .ms-brief .ms-candidates {grid-template-columns:1fr;}
+ #midterm-sentiment-mockup .ms-panel {padding:17px 13px;}
+ #midterm-sentiment-mockup .ms-mixrow {grid-template-columns:90px 1fr 28px;gap:8px;font-size:11px;}
+ #midterm-sentiment-mockup .ms-state-control select {min-height:44px;}
+}
+@media(prefers-reduced-motion:reduce){#midterm-sentiment-mockup .ms-segment {transition:none;}}
+
+/* Native webpage navigation; the preview wrapper is no longer required. */
+:root {color-scheme:light dark;background:light-dark(#f5f6f2,#141b19);}
+body {margin:0;}
+[hidden] {display:none !important;}
+#midterm-sentiment-mockup {max-width:1360px;margin:0 auto;}
+#midterm-sentiment-mockup .ms-app {min-height:100vh;}
+#midterm-sentiment-mockup .ms-top {position:sticky;top:0;z-index:20;}
+#midterm-sentiment-mockup .ms-topnav {margin-left:0;gap:12px;flex-wrap:wrap;}
+#midterm-sentiment-mockup .ms-tabs {display:flex;gap:5px;flex-wrap:wrap;}
+#midterm-sentiment-mockup .ms-nav-button {background:transparent;border:0;border-radius:8px;padding:10px 13px;color:var(--ms-sub);font-size:13px;cursor:pointer;}
+#midterm-sentiment-mockup .ms-nav-button[aria-selected="true"] {background:var(--ms-soft);color:var(--ms-ink);font-weight:600;}
+#midterm-sentiment-mockup .ms-state-control {margin-left:auto;}
+#midterm-sentiment-mockup button:focus-visible,#midterm-sentiment-mockup a:focus-visible,#midterm-sentiment-mockup select:focus-visible {outline:2px solid var(--ms-a);outline-offset:3px;}
+@media(max-width:600px){
+ #midterm-sentiment-mockup .ms-top {padding:12px;gap:7px;}
+ #midterm-sentiment-mockup .ms-topnav {gap:3px;}
+ #midterm-sentiment-mockup .ms-nav-button {padding:10px 9px;min-height:44px;}
+ #midterm-sentiment-mockup .ms-state-control {margin-left:0;}
+}
+
+/* Saved weekly observations. Empty periods remain empty, never illustrative. */
+#midterm-sentiment-mockup .ms-week-toolbar {display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap;padding:4px 0;}
+#midterm-sentiment-mockup .ms-period-eyebrow {font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ms-sub);margin:0 0 5px;font-weight:650;}
+#midterm-sentiment-mockup .ms-selected-period {font-size:20px;font-weight:550;letter-spacing:-.55px;line-height:1.3;}
+#midterm-sentiment-mockup .ms-week-control {display:flex;align-items:center;gap:8px;}
+#midterm-sentiment-mockup .ms-week-control label {font-size:11px;color:var(--ms-sub);}
+#midterm-sentiment-mockup .ms-week-control select {font-size:12px;min-width:190px;}
+#midterm-sentiment-mockup .ms-number-pending {font-size:23px;letter-spacing:-.7px;color:var(--ms-sub);line-height:1.4;}
+#midterm-sentiment-mockup .ms-partial-label {font-size:10px;display:inline-flex;border:1px solid light-dark(#dfccb3,#65533d);background:light-dark(#f7f0e4,#352e23);color:light-dark(#7c6441,#d8bb89);padding:5px 7px;border-radius:5px;white-space:nowrap;}
+#midterm-sentiment-mockup .ms-trendpanel {position:relative;}
+#midterm-sentiment-mockup .ms-chart-empty {position:absolute;left:20%;right:20%;top:49%;text-align:center;color:var(--ms-sub);font-size:12px;line-height:1.8;margin:0;background:var(--ms-panel);padding:12px 18px;border:1px solid var(--ms-rule);border-radius:8px;pointer-events:none;}
+#midterm-sentiment-mockup .ms-chart .ms-week-guide {stroke:var(--ms-sub);stroke-opacity:.2;stroke-dasharray:3 4;}
+#midterm-sentiment-mockup .ms-chart .ms-point-partial {fill:var(--ms-panel);stroke-width:2;}
+#midterm-sentiment-mockup .ms-chart .ms-point-a.ms-point-partial {stroke:var(--ms-a);}
+#midterm-sentiment-mockup .ms-chart .ms-point-b.ms-point-partial {stroke:var(--ms-b);}
+#midterm-sentiment-mockup .ms-chart circle:focus-visible {outline:none;stroke:var(--ms-ink);stroke-width:3;}
+#midterm-sentiment-mockup .ms-mix-missing {font-size:11px;color:var(--ms-sub);background:var(--ms-soft);padding:5px 9px;min-height:24px;border-radius:4px;}
+#midterm-sentiment-mockup .ms-week-details {border:1px solid var(--ms-rule);border-radius:12px;background:var(--ms-panel);min-width:0;}
+#midterm-sentiment-mockup .ms-week-details > summary {cursor:pointer;padding:16px 20px;font-size:12px;color:var(--ms-ink);font-weight:600;}
+#midterm-sentiment-mockup .ms-week-details > summary:focus-visible {outline:2px solid var(--ms-a);outline-offset:3px;border-radius:10px;}
+#midterm-sentiment-mockup .ms-table-scroll {overflow-x:auto;padding:0 20px 12px;}
+#midterm-sentiment-mockup .ms-week-details table {border-collapse:collapse;width:100%;text-align:left;font-size:11px;white-space:nowrap;}
+#midterm-sentiment-mockup .ms-week-details th {padding:10px 12px 11px 0;border-bottom:1px solid var(--ms-rule);font-weight:650;color:var(--ms-sub);font-size:10px;}
+#midterm-sentiment-mockup .ms-week-details td {padding:10px 12px 10px 0;border-bottom:1px solid var(--ms-rule);font-variant-numeric:tabular-nums;}
+#midterm-sentiment-mockup .ms-week-details tr:last-child td {border-bottom:0;}
+#midterm-sentiment-mockup .ms-week-details th:last-child,#midterm-sentiment-mockup .ms-week-details td:last-child {padding-right:0;}
+#midterm-sentiment-mockup .ms-sr-only {position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media(max-width:700px){
+ #midterm-sentiment-mockup .ms-chart-empty {left:12%;right:12%;font-size:11px;padding:10px 12px;}
+ #midterm-sentiment-mockup .ms-week-control select {min-height:42px;}
+}
+@media(max-width:440px){
+ #midterm-sentiment-mockup .ms-week-toolbar {gap:14px;}
+ #midterm-sentiment-mockup .ms-week-control {width:100%;}
+ #midterm-sentiment-mockup .ms-week-control select {flex:1;min-width:0;width:100%;}
+ #midterm-sentiment-mockup .ms-chart-empty {left:15px;right:15px;top:46%;font-size:11px;}
+ #midterm-sentiment-mockup .ms-week-details > summary {padding:15px;font-size:11px;}
+ #midterm-sentiment-mockup .ms-table-scroll {padding:0 15px 10px;}
+}
+
+/* The public project links back to the personal site's project collection. */
+#midterm-sentiment-mockup .ms-projects-link {display:inline-flex;align-items:center;min-height:36px;color:var(--ms-sub);font-size:13px;text-decoration:none;white-space:nowrap;}
+#midterm-sentiment-mockup .ms-projects-link:hover {color:var(--ms-ink);text-decoration:underline;text-underline-offset:4px;}
+#midterm-sentiment-mockup .ms-projects-link:focus-visible {outline:2px solid var(--ms-a);outline-offset:4px;border-radius:3px;}
+@media(max-width:600px){#midterm-sentiment-mockup .ms-projects-link {width:100%;min-height:24px;}}

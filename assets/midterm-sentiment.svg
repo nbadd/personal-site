@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600">
+  <title>Illustration of two sentiment series</title>
+  <defs>
+    <linearGradient id="paper" x2="1" y2="1">
+      <stop stop-color="#e8eee3"/>
+      <stop offset="1" stop-color="#f5f2e9"/>
+    </linearGradient>
+    <linearGradient id="wash" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#729680" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#729680" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#paper)" d="M0 0h960v600H0z"/>
+  <rect x="74" y="82" width="812" height="436" rx="18" fill="#fffefa" stroke="#d4ddcf" stroke-width="2"/>
+  <g stroke="#e4e8de" stroke-width="1.5">
+    <path d="M124 174h712M124 258h712M124 342h712M124 426h712"/>
+    <path d="M124 142v316M266 142v316M408 142v316M550 142v316M692 142v316M836 142v316"/>
+  </g>
+  <path d="M124 342h712" fill="none" stroke="#aab8a7" stroke-width="1.5" stroke-dasharray="5 7"/>
+  <path d="M124 358C180 365 211 316 266 321S353 345 408 290 494 302 550 253 636 286 692 224 780 228 836 177V458H124Z" fill="url(#wash)"/>
+  <path d="M124 358C180 365 211 316 266 321S353 345 408 290 494 302 550 253 636 286 692 224 780 228 836 177" fill="none" stroke="#465b4d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M124 263C180 251 211 287 266 275S353 298 408 321 494 299 550 328 636 314 692 355 780 345 836 375" fill="none" stroke="#a18d7f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="13 11"/>
+  <circle cx="836" cy="177" r="8" fill="#465b4d" stroke="#fffefa" stroke-width="3"/>
+  <circle cx="836" cy="375" r="7" fill="#a18d7f" stroke="#fffefa" stroke-width="3"/>
+</svg>

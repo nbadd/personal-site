@@ -1,0 +1,1391 @@
+{
+  "schema_version": 1,
+  "collection_finished": true,
+  "status": "partial",
+  "model": "jev-1.14.0",
+  "min_classified": 20,
+  "weeks": [
+    {
+      "id": "week-01",
+      "start_at": "2026-08-10T00:00:00Z",
+      "end_at": "2026-08-17T00:00:00Z",
+      "label": "Aug 10–Aug 16, 2026"
+    },
+    {
+      "id": "week-02",
+      "start_at": "2026-08-17T00:00:00Z",
+      "end_at": "2026-08-24T00:00:00Z",
+      "label": "Aug 17–Aug 23, 2026"
+    },
+    {
+      "id": "week-03",
+      "start_at": "2026-08-24T00:00:00Z",
+      "end_at": "2026-08-31T00:00:00Z",
+      "label": "Aug 24–Aug 30, 2026"
+    },
+    {
+      "id": "week-04",
+      "start_at": "2026-08-31T00:00:00Z",
+      "end_at": "2026-09-07T00:00:00Z",
+      "label": "Aug 31–Sep 6, 2026"
+    },
+    {
+      "id": "week-05",
+      "start_at": "2026-09-07T00:00:00Z",
+      "end_at": "2026-09-14T00:00:00Z",
+      "label": "Sep 7–Sep 13, 2026"
+    },
+    {
+      "id": "week-06",
+      "start_at": "2026-09-14T00:00:00Z",
+      "end_at": "2026-09-21T00:00:00Z",
+      "label": "Sep 14–Sep 20, 2026"
+    },
+    {
+      "id": "week-07",
+      "start_at": "2026-09-21T00:00:00Z",
+      "end_at": "2026-09-28T00:00:00Z",
+      "label": "Sep 21–Sep 27, 2026"
+    },
+    {
+      "id": "week-08",
+      "start_at": "2026-09-28T00:00:00Z",
+      "end_at": "2026-10-05T00:00:00Z",
+      "label": "Sep 28–Oct 4, 2026"
+    },
+    {
+      "id": "week-09",
+      "start_at": "2026-10-05T00:00:00Z",
+      "end_at": "2026-10-12T00:00:00Z",
+      "label": "Oct 5–Oct 11, 2026"
+    },
+    {
+      "id": "week-10",
+      "start_at": "2026-10-12T00:00:00Z",
+      "end_at": "2026-10-19T00:00:00Z",
+      "label": "Oct 12–Oct 18, 2026"
+    }
+  ],
+  "states": [
+    {
+      "code": "IA",
+      "name": "Iowa",
+      "candidates": [
+        {
+          "id": "ia_turek",
+          "name": "Josh Turek",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 341,
+              "for_count": 80,
+              "against_count": 119,
+              "neutral_count": 43,
+              "unclear_count": 99
+            },
+            {
+              "week_id": "week-02",
+              "status": "partial",
+              "fetched": 383,
+              "accepted": 322,
+              "for_count": 45,
+              "against_count": 114,
+              "neutral_count": 23,
+              "unclear_count": 140
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 386,
+              "accepted": 321,
+              "for_count": 63,
+              "against_count": 127,
+              "neutral_count": 31,
+              "unclear_count": 100
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 344,
+              "for_count": 73,
+              "against_count": 129,
+              "neutral_count": 34,
+              "unclear_count": 108
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 397,
+              "accepted": 361,
+              "for_count": 55,
+              "against_count": 135,
+              "neutral_count": 27,
+              "unclear_count": 144
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 342,
+              "for_count": 70,
+              "against_count": 93,
+              "neutral_count": 41,
+              "unclear_count": 138
+            },
+            {
+              "week_id": "week-07",
+              "status": "partial",
+              "fetched": 328,
+              "accepted": 289,
+              "for_count": 70,
+              "against_count": 95,
+              "neutral_count": 27,
+              "unclear_count": 97
+            },
+            {
+              "week_id": "week-08",
+              "status": "partial",
+              "fetched": 350,
+              "accepted": 297,
+              "for_count": 56,
+              "against_count": 84,
+              "neutral_count": 45,
+              "unclear_count": 112
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 337,
+              "for_count": 80,
+              "against_count": 98,
+              "neutral_count": 45,
+              "unclear_count": 114
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 375,
+              "for_count": 70,
+              "against_count": 113,
+              "neutral_count": 36,
+              "unclear_count": 156
+            }
+          ]
+        },
+        {
+          "id": "ia_hinson",
+          "name": "Ashley Hinson",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 297,
+              "for_count": 23,
+              "against_count": 166,
+              "neutral_count": 33,
+              "unclear_count": 75
+            },
+            {
+              "week_id": "week-02",
+              "status": "partial",
+              "fetched": 388,
+              "accepted": 305,
+              "for_count": 38,
+              "against_count": 143,
+              "neutral_count": 30,
+              "unclear_count": 94
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 391,
+              "accepted": 307,
+              "for_count": 34,
+              "against_count": 172,
+              "neutral_count": 18,
+              "unclear_count": 83
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 392,
+              "accepted": 331,
+              "for_count": 35,
+              "against_count": 179,
+              "neutral_count": 25,
+              "unclear_count": 92
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 394,
+              "accepted": 340,
+              "for_count": 19,
+              "against_count": 176,
+              "neutral_count": 27,
+              "unclear_count": 118
+            },
+            {
+              "week_id": "week-06",
+              "status": "partial",
+              "fetched": 363,
+              "accepted": 322,
+              "for_count": 38,
+              "against_count": 193,
+              "neutral_count": 19,
+              "unclear_count": 72
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 381,
+              "accepted": 365,
+              "for_count": 14,
+              "against_count": 245,
+              "neutral_count": 15,
+              "unclear_count": 91
+            },
+            {
+              "week_id": "week-08",
+              "status": "partial",
+              "fetched": 336,
+              "accepted": 306,
+              "for_count": 27,
+              "against_count": 158,
+              "neutral_count": 38,
+              "unclear_count": 83
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 333,
+              "for_count": 22,
+              "against_count": 205,
+              "neutral_count": 30,
+              "unclear_count": 76
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 357,
+              "for_count": 34,
+              "against_count": 197,
+              "neutral_count": 22,
+              "unclear_count": 104
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "ME",
+      "name": "Maine",
+      "candidates": [
+        {
+          "id": "me_jackson",
+          "name": "Troy Jackson",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 386,
+              "accepted": 374,
+              "for_count": 40,
+              "against_count": 142,
+              "neutral_count": 26,
+              "unclear_count": 166
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 393,
+              "accepted": 376,
+              "for_count": 49,
+              "against_count": 194,
+              "neutral_count": 16,
+              "unclear_count": 117
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 374,
+              "for_count": 37,
+              "against_count": 181,
+              "neutral_count": 21,
+              "unclear_count": 135
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 391,
+              "accepted": 343,
+              "for_count": 38,
+              "against_count": 153,
+              "neutral_count": 20,
+              "unclear_count": 132
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 365,
+              "for_count": 44,
+              "against_count": 170,
+              "neutral_count": 34,
+              "unclear_count": 117
+            },
+            {
+              "week_id": "week-06",
+              "status": "partial",
+              "fetched": 371,
+              "accepted": 334,
+              "for_count": 35,
+              "against_count": 161,
+              "neutral_count": 19,
+              "unclear_count": 119
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 377,
+              "accepted": 364,
+              "for_count": 52,
+              "against_count": 163,
+              "neutral_count": 22,
+              "unclear_count": 127
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 376,
+              "accepted": 342,
+              "for_count": 50,
+              "against_count": 162,
+              "neutral_count": 14,
+              "unclear_count": 116
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 383,
+              "accepted": 369,
+              "for_count": 44,
+              "against_count": 146,
+              "neutral_count": 35,
+              "unclear_count": 144
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 383,
+              "for_count": 44,
+              "against_count": 190,
+              "neutral_count": 23,
+              "unclear_count": 126
+            }
+          ]
+        },
+        {
+          "id": "me_collins",
+          "name": "Susan Collins",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 385,
+              "accepted": 364,
+              "for_count": 24,
+              "against_count": 213,
+              "neutral_count": 29,
+              "unclear_count": 98
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 346,
+              "for_count": 28,
+              "against_count": 163,
+              "neutral_count": 29,
+              "unclear_count": 126
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 367,
+              "for_count": 28,
+              "against_count": 202,
+              "neutral_count": 34,
+              "unclear_count": 103
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 391,
+              "accepted": 366,
+              "for_count": 17,
+              "against_count": 205,
+              "neutral_count": 23,
+              "unclear_count": 121
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 382,
+              "accepted": 353,
+              "for_count": 42,
+              "against_count": 185,
+              "neutral_count": 41,
+              "unclear_count": 85
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 318,
+              "accepted": 281,
+              "for_count": 30,
+              "against_count": 157,
+              "neutral_count": 22,
+              "unclear_count": 72
+            },
+            {
+              "week_id": "week-07",
+              "status": "partial",
+              "fetched": 375,
+              "accepted": 353,
+              "for_count": 31,
+              "against_count": 215,
+              "neutral_count": 24,
+              "unclear_count": 83
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 380,
+              "accepted": 360,
+              "for_count": 41,
+              "against_count": 199,
+              "neutral_count": 26,
+              "unclear_count": 94
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 378,
+              "accepted": 362,
+              "for_count": 42,
+              "against_count": 206,
+              "neutral_count": 25,
+              "unclear_count": 89
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 383,
+              "for_count": 35,
+              "against_count": 223,
+              "neutral_count": 32,
+              "unclear_count": 93
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "MI",
+      "name": "Michigan",
+      "candidates": [
+        {
+          "id": "mi_elsayed",
+          "name": "Abdul El-Sayed",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 393,
+              "accepted": 346,
+              "for_count": 32,
+              "against_count": 204,
+              "neutral_count": 15,
+              "unclear_count": 95
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 363,
+              "for_count": 30,
+              "against_count": 202,
+              "neutral_count": 15,
+              "unclear_count": 116
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 375,
+              "accepted": 362,
+              "for_count": 29,
+              "against_count": 189,
+              "neutral_count": 12,
+              "unclear_count": 132
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 380,
+              "accepted": 369,
+              "for_count": 27,
+              "against_count": 206,
+              "neutral_count": 11,
+              "unclear_count": 125
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 375,
+              "for_count": 41,
+              "against_count": 197,
+              "neutral_count": 19,
+              "unclear_count": 118
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 370,
+              "for_count": 39,
+              "against_count": 191,
+              "neutral_count": 23,
+              "unclear_count": 117
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 375,
+              "for_count": 42,
+              "against_count": 209,
+              "neutral_count": 16,
+              "unclear_count": 108
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 377,
+              "accepted": 362,
+              "for_count": 22,
+              "against_count": 225,
+              "neutral_count": 16,
+              "unclear_count": 99
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 373,
+              "for_count": 49,
+              "against_count": 207,
+              "neutral_count": 25,
+              "unclear_count": 92
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 398,
+              "accepted": 383,
+              "for_count": 59,
+              "against_count": 210,
+              "neutral_count": 17,
+              "unclear_count": 97
+            }
+          ]
+        },
+        {
+          "id": "mi_rogers",
+          "name": "Mike Rogers",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 350,
+              "for_count": 58,
+              "against_count": 125,
+              "neutral_count": 15,
+              "unclear_count": 152
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 338,
+              "for_count": 47,
+              "against_count": 142,
+              "neutral_count": 13,
+              "unclear_count": 136
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 378,
+              "accepted": 357,
+              "for_count": 44,
+              "against_count": 161,
+              "neutral_count": 15,
+              "unclear_count": 137
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 385,
+              "accepted": 348,
+              "for_count": 38,
+              "against_count": 175,
+              "neutral_count": 8,
+              "unclear_count": 127
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 379,
+              "accepted": 348,
+              "for_count": 37,
+              "against_count": 168,
+              "neutral_count": 21,
+              "unclear_count": 122
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 364,
+              "accepted": 321,
+              "for_count": 44,
+              "against_count": 154,
+              "neutral_count": 9,
+              "unclear_count": 114
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 331,
+              "for_count": 31,
+              "against_count": 173,
+              "neutral_count": 9,
+              "unclear_count": 118
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 383,
+              "accepted": 357,
+              "for_count": 76,
+              "against_count": 132,
+              "neutral_count": 18,
+              "unclear_count": 131
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 342,
+              "for_count": 66,
+              "against_count": 149,
+              "neutral_count": 14,
+              "unclear_count": 113
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 347,
+              "for_count": 63,
+              "against_count": 133,
+              "neutral_count": 12,
+              "unclear_count": 139
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "NC",
+      "name": "North Carolina",
+      "candidates": [
+        {
+          "id": "nc_cooper",
+          "name": "Roy Cooper",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 372,
+              "for_count": 32,
+              "against_count": 241,
+              "neutral_count": 22,
+              "unclear_count": 77
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 364,
+              "for_count": 20,
+              "against_count": 258,
+              "neutral_count": 9,
+              "unclear_count": 77
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 394,
+              "accepted": 346,
+              "for_count": 36,
+              "against_count": 212,
+              "neutral_count": 14,
+              "unclear_count": 84
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 399,
+              "accepted": 357,
+              "for_count": 37,
+              "against_count": 228,
+              "neutral_count": 12,
+              "unclear_count": 80
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 397,
+              "accepted": 358,
+              "for_count": 26,
+              "against_count": 236,
+              "neutral_count": 12,
+              "unclear_count": 84
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 384,
+              "accepted": 356,
+              "for_count": 34,
+              "against_count": 242,
+              "neutral_count": 14,
+              "unclear_count": 66
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 336,
+              "for_count": 45,
+              "against_count": 196,
+              "neutral_count": 15,
+              "unclear_count": 80
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 383,
+              "accepted": 335,
+              "for_count": 34,
+              "against_count": 212,
+              "neutral_count": 15,
+              "unclear_count": 74
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 363,
+              "for_count": 43,
+              "against_count": 237,
+              "neutral_count": 11,
+              "unclear_count": 72
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 393,
+              "accepted": 345,
+              "for_count": 46,
+              "against_count": 224,
+              "neutral_count": 15,
+              "unclear_count": 60
+            }
+          ]
+        },
+        {
+          "id": "nc_whatley",
+          "name": "Michael Whatley",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 397,
+              "accepted": 341,
+              "for_count": 52,
+              "against_count": 159,
+              "neutral_count": 15,
+              "unclear_count": 115
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 384,
+              "accepted": 350,
+              "for_count": 37,
+              "against_count": 177,
+              "neutral_count": 4,
+              "unclear_count": 132
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 392,
+              "accepted": 342,
+              "for_count": 44,
+              "against_count": 154,
+              "neutral_count": 8,
+              "unclear_count": 136
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 399,
+              "accepted": 316,
+              "for_count": 54,
+              "against_count": 162,
+              "neutral_count": 8,
+              "unclear_count": 92
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 379,
+              "accepted": 342,
+              "for_count": 52,
+              "against_count": 159,
+              "neutral_count": 24,
+              "unclear_count": 107
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 368,
+              "accepted": 335,
+              "for_count": 54,
+              "against_count": 135,
+              "neutral_count": 19,
+              "unclear_count": 127
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 384,
+              "accepted": 336,
+              "for_count": 42,
+              "against_count": 169,
+              "neutral_count": 12,
+              "unclear_count": 113
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 381,
+              "accepted": 349,
+              "for_count": 68,
+              "against_count": 140,
+              "neutral_count": 18,
+              "unclear_count": 123
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 386,
+              "accepted": 338,
+              "for_count": 65,
+              "against_count": 142,
+              "neutral_count": 15,
+              "unclear_count": 116
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 352,
+              "for_count": 81,
+              "against_count": 138,
+              "neutral_count": 12,
+              "unclear_count": 121
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "OH",
+      "name": "Ohio",
+      "candidates": [
+        {
+          "id": "oh_brown",
+          "name": "Sherrod Brown",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 362,
+              "for_count": 71,
+              "against_count": 151,
+              "neutral_count": 30,
+              "unclear_count": 110
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 392,
+              "accepted": 353,
+              "for_count": 51,
+              "against_count": 213,
+              "neutral_count": 16,
+              "unclear_count": 73
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 370,
+              "for_count": 74,
+              "against_count": 187,
+              "neutral_count": 13,
+              "unclear_count": 96
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 392,
+              "accepted": 340,
+              "for_count": 33,
+              "against_count": 194,
+              "neutral_count": 20,
+              "unclear_count": 93
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 352,
+              "for_count": 47,
+              "against_count": 210,
+              "neutral_count": 11,
+              "unclear_count": 84
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 381,
+              "accepted": 357,
+              "for_count": 47,
+              "against_count": 217,
+              "neutral_count": 18,
+              "unclear_count": 75
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 383,
+              "accepted": 341,
+              "for_count": 43,
+              "against_count": 185,
+              "neutral_count": 21,
+              "unclear_count": 92
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 352,
+              "for_count": 46,
+              "against_count": 199,
+              "neutral_count": 18,
+              "unclear_count": 89
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 384,
+              "accepted": 352,
+              "for_count": 66,
+              "against_count": 162,
+              "neutral_count": 29,
+              "unclear_count": 95
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 379,
+              "for_count": 31,
+              "against_count": 200,
+              "neutral_count": 21,
+              "unclear_count": 127
+            }
+          ]
+        },
+        {
+          "id": "oh_husted",
+          "name": "Jon Husted",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "partial",
+              "fetched": 355,
+              "accepted": 287,
+              "for_count": 38,
+              "against_count": 150,
+              "neutral_count": 52,
+              "unclear_count": 47
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 309,
+              "for_count": 18,
+              "against_count": 203,
+              "neutral_count": 24,
+              "unclear_count": 64
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 319,
+              "for_count": 38,
+              "against_count": 158,
+              "neutral_count": 32,
+              "unclear_count": 91
+            },
+            {
+              "week_id": "week-04",
+              "status": "partial",
+              "fetched": 362,
+              "accepted": 260,
+              "for_count": 30,
+              "against_count": 144,
+              "neutral_count": 36,
+              "unclear_count": 50
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 391,
+              "accepted": 314,
+              "for_count": 36,
+              "against_count": 170,
+              "neutral_count": 41,
+              "unclear_count": 67
+            },
+            {
+              "week_id": "week-06",
+              "status": "partial",
+              "fetched": 379,
+              "accepted": 319,
+              "for_count": 65,
+              "against_count": 132,
+              "neutral_count": 75,
+              "unclear_count": 47
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 375,
+              "accepted": 287,
+              "for_count": 35,
+              "against_count": 155,
+              "neutral_count": 50,
+              "unclear_count": 47
+            },
+            {
+              "week_id": "week-08",
+              "status": "partial",
+              "fetched": 355,
+              "accepted": 294,
+              "for_count": 44,
+              "against_count": 126,
+              "neutral_count": 67,
+              "unclear_count": 57
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 382,
+              "accepted": 309,
+              "for_count": 69,
+              "against_count": 141,
+              "neutral_count": 46,
+              "unclear_count": 53
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 321,
+              "for_count": 66,
+              "against_count": 98,
+              "neutral_count": 48,
+              "unclear_count": 109
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TX",
+      "name": "Texas",
+      "candidates": [
+        {
+          "id": "tx_paxton",
+          "name": "Ken Paxton",
+          "party": "R",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 383,
+              "accepted": 379,
+              "for_count": 48,
+              "against_count": 165,
+              "neutral_count": 13,
+              "unclear_count": 153
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 366,
+              "for_count": 53,
+              "against_count": 177,
+              "neutral_count": 10,
+              "unclear_count": 126
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 384,
+              "accepted": 367,
+              "for_count": 69,
+              "against_count": 167,
+              "neutral_count": 12,
+              "unclear_count": 119
+            },
+            {
+              "week_id": "week-04",
+              "status": "partial",
+              "fetched": 377,
+              "accepted": 368,
+              "for_count": 70,
+              "against_count": 171,
+              "neutral_count": 9,
+              "unclear_count": 118
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 380,
+              "accepted": 368,
+              "for_count": 68,
+              "against_count": 177,
+              "neutral_count": 26,
+              "unclear_count": 97
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 381,
+              "accepted": 370,
+              "for_count": 69,
+              "against_count": 178,
+              "neutral_count": 9,
+              "unclear_count": 114
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 385,
+              "accepted": 369,
+              "for_count": 55,
+              "against_count": 172,
+              "neutral_count": 18,
+              "unclear_count": 124
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 379,
+              "for_count": 103,
+              "against_count": 158,
+              "neutral_count": 19,
+              "unclear_count": 99
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 373,
+              "for_count": 67,
+              "against_count": 199,
+              "neutral_count": 19,
+              "unclear_count": 88
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 398,
+              "accepted": 388,
+              "for_count": 60,
+              "against_count": 223,
+              "neutral_count": 21,
+              "unclear_count": 84
+            }
+          ]
+        },
+        {
+          "id": "tx_talarico",
+          "name": "James Talarico",
+          "party": "D",
+          "weeks": [
+            {
+              "week_id": "week-01",
+              "status": "complete",
+              "fetched": 380,
+              "accepted": 364,
+              "for_count": 42,
+              "against_count": 165,
+              "neutral_count": 16,
+              "unclear_count": 141
+            },
+            {
+              "week_id": "week-02",
+              "status": "complete",
+              "fetched": 388,
+              "accepted": 381,
+              "for_count": 42,
+              "against_count": 208,
+              "neutral_count": 12,
+              "unclear_count": 119
+            },
+            {
+              "week_id": "week-03",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 382,
+              "for_count": 32,
+              "against_count": 194,
+              "neutral_count": 22,
+              "unclear_count": 134
+            },
+            {
+              "week_id": "week-04",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 382,
+              "for_count": 36,
+              "against_count": 204,
+              "neutral_count": 17,
+              "unclear_count": 125
+            },
+            {
+              "week_id": "week-05",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 360,
+              "for_count": 51,
+              "against_count": 153,
+              "neutral_count": 33,
+              "unclear_count": 123
+            },
+            {
+              "week_id": "week-06",
+              "status": "complete",
+              "fetched": 376,
+              "accepted": 359,
+              "for_count": 53,
+              "against_count": 156,
+              "neutral_count": 26,
+              "unclear_count": 124
+            },
+            {
+              "week_id": "week-07",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 373,
+              "for_count": 49,
+              "against_count": 177,
+              "neutral_count": 18,
+              "unclear_count": 129
+            },
+            {
+              "week_id": "week-08",
+              "status": "complete",
+              "fetched": 386,
+              "accepted": 374,
+              "for_count": 52,
+              "against_count": 167,
+              "neutral_count": 18,
+              "unclear_count": 137
+            },
+            {
+              "week_id": "week-09",
+              "status": "complete",
+              "fetched": 385,
+              "accepted": 376,
+              "for_count": 65,
+              "against_count": 159,
+              "neutral_count": 21,
+              "unclear_count": 131
+            },
+            {
+              "week_id": "week-10",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 375,
+              "for_count": 64,
+              "against_count": 164,
+              "neutral_count": 30,
+              "unclear_count": 117
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
