@@ -76,6 +76,14 @@ annual/quarterly charts, CSV export, query links, and navigation on the personal
 domain before retiring the old site. No domain/DNS settings were changed for
 this integration. The personal-site copy is maintained in this repository.
 
+## Chronos
+
+The Chronos tile links directly to the public Chronos History iPhone app listing:
+https://apps.apple.com/us/app/chronos-history/id6780136606.
+The listing is verified against the app's bundle identifier and developer name.
+The personal site contains the project tile only; the native app's private
+source and credentials are not included in this repository.
+
 ## Deploy on Netlify
 
 This site uses Netlify with the repository root as its publish directory and an
