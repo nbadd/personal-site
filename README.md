@@ -26,7 +26,7 @@ There is no package installation or build step.
 The Projects collection is linked directly at `/#projects`. The previous
 `projects.html` URL redirects there. Writing and adventures redirects still work.
 
-## Midterm Sentiment
+## Midterm Sentiment Analysis
 
 The project tile opens `/projects/midterm-sentiment/`. It includes state/week
 selection, sentiment charts, sample sizes, and the Jev methodology walkthrough.
@@ -38,7 +38,7 @@ Partial coverage remains marked on the dashboard.
 database, raw X post text, post IDs, author IDs, or paid API requests. It does not
 automatically fetch new posts or synchronize future local collections.
 
-The source project is maintained separately as Midterm Sentiment. To refresh the
+The source project is maintained separately as Midterm Sentiment Analysis. To refresh the
 published frontend and aggregate snapshot, run this from its local checkout:
 
 ```sh

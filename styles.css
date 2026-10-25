@@ -83,3 +83,8 @@ h1 { margin: 0; font-family: var(--font); font-size: clamp(29px, 4.5vw, 44px); f
 @media (prefers-reduced-motion: reduce) {
   .article-card, .collection-indicator, .collection-tab { transition: none; }
 }
+
+/* Project tiles introduce the work directly through text. */
+.project-card { padding: 24px; }
+.project-card h2 { padding: 0; }
+.project-card p { margin: 12px 0 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
