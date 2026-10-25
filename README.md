@@ -1,6 +1,6 @@
 # Writing and projects
 
-Nikhil Baddam's dependency-free static website at https://nikhilbaddam.com/.
+Nikhil Baddam's static website at https://nikhilbaddam.com/.
 The homepage has a Writing / Projects slider. Existing essay URLs are preserved.
 
 ## Preview
@@ -78,11 +78,26 @@ this integration. The personal-site copy is maintained in this repository.
 
 ## Chronos
 
-The Chronos tile links directly to the public Chronos History iPhone app listing:
-https://apps.apple.com/us/app/chronos-history/id6780136606.
-The listing is verified against the app's bundle identifier and developer name.
-The personal site contains the project tile only; the native app's private
-source and credentials are not included in this repository.
+The Chronos tile opens `/projects/chronos/`, a browser build of the separately
+maintained `nbadd/chronos-history` app. It includes year search, BC/AD selection,
+random discovery, event cards, and saved AI Origins timelines. Some events have
+no saved precursor timeline and display that explicitly. Its historical
+dataset currently contains 497 events through 2024. The web build has no API key
+and makes no paid requests when a visitor explores events.
+
+The native app's `master` branch is unchanged; web source lives on the separate
+`codex/chronos-web` branch in the private Chronos repository. This public
+repository contains only the exported browser assets. To update it, run this
+from the Chronos checkout with its dependencies installed:
+
+```sh
+node scripts/export-web.mjs --dest /absolute/path/to/personal-site/projects/chronos
+```
+
+The exporter requires saved Origins for every event, disables environment-file
+loading and client variable inlining, checks the output, and copies an explicit
+asset bundle. Review and commit the output here, then push `main` to deploy.
+Do not copy `.env`, source files, local generation ledgers, or native build files.
 
 ## Deploy on Netlify
 
