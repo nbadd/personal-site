@@ -89,11 +89,6 @@
         <details class="ms-week-details"><summary>View weekly sample details</summary><div class="ms-table-scroll"><table><caption class="ms-sr-only">All saved weekly candidate results for the selected race. Missing observations are shown as dashes.</caption><thead><tr><th scope="col">Week (UTC)</th><th scope="col">Candidate</th><th scope="col">Net</th><th scope="col">Classified</th><th scope="col">Unclear</th><th scope="col">Post reads</th><th scope="col">Collection</th></tr></thead><tbody></tbody></table></div></details>
       </main>
       <main class="ms-content ms-methods-panel" id="process-panel-${index}" role="tabpanel" aria-labelledby="process-tab-${index}" hidden></main>`;
-    if (root.dataset.projectsUrl) {
-      const back = node("a", "ms-projects-link", "← Projects");
-      back.href = root.dataset.projectsUrl;
-      app.querySelector(".ms-top").prepend(back);
-    }
     const template = document.getElementById("process-template");
     if (template) app.querySelector(".ms-methods-panel").append(template.content.cloneNode(true));
     app.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view, true)));

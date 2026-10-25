@@ -271,14 +271,7 @@
     .empty-title { font-size: 0.88rem; font-weight: 600; color: var(--muted); }
     .empty-sub   { font-size: 0.77rem; color: var(--faint); }
 
-    /* Navigation back to the personal-site project collection. */
-    .project-nav { height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 24px; background: #07090F; border-bottom: 1px solid #1A2B44; }
-    .project-nav a { color: #94A3B8; font-size: 12px; text-decoration: none; white-space: nowrap; }
-    .project-nav a:hover { color: #F8FAFC; text-decoration: underline; text-underline-offset: 4px; }
-    .project-nav a:focus-visible { outline: 2px solid #60A5FA; outline-offset: 5px; border-radius: 2px; }
-    #search-screen, #app { height: calc(100vh - 48px); }
     @media (max-width: 700px) {
-      .project-nav { padding: 0 16px; }
       .toolbar { height: auto; min-height: 48px; flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
       .search-wrap { flex: 1 1 180px; }
       .search-input { width: 100%; }
@@ -288,10 +281,6 @@
   </style>
 </head>
 <body>
-<nav class="project-nav" aria-label="Project navigation">
-  <a href="/#projects">← Projects</a>
-</nav>
-
 <!-- Search -->
 <div id="search-screen">
   <div class="search-card">

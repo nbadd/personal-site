@@ -54,7 +54,7 @@ Do not copy the source project's `data/`, `.env`, raw archives, or local reports
 The FedAwards tile opens `/projects/fedawards/`. This is the complete app hosted
 on the personal website, adapted from `nbadd/fedawards` commit
 `cdb6a03f9f66f069d72066af8c76f6ff97ec46c0`. It is a single static HTML file,
-with navigation back to Projects and no dependence on the `fedawards.io` domain.
+with no dependence on the `fedawards.io` domain.
 
 Recipient searches and award-detail enrichment call the public USASpending.gov
 API directly from the browser. Chart.js 4.4.0 and its data-label plugin 2.2.0 load
