@@ -49,6 +49,33 @@ The exporter writes an explicit six-file bundle from saved results. Review and
 commit those generated files in this repository, then push `main` to deploy.
 Do not copy the source project's `data/`, `.env`, raw archives, or local reports.
 
+## FedAwards
+
+The FedAwards tile opens `/projects/fedawards/`. This is the complete app hosted
+on the personal website, adapted from `nbadd/fedawards` commit
+`cdb6a03f9f66f069d72066af8c76f6ff97ec46c0`. It is a single static HTML file,
+with navigation back to Projects and no dependence on the `fedawards.io` domain.
+
+Recipient searches and award-detail enrichment call the public USASpending.gov
+API directly from the browser. Chart.js 4.4.0 and its data-label plugin 2.2.0 load
+from jsDelivr. There is no separate application server, API key, or database.
+The list can be filtered and sorted; annual/quarterly charts prorate contract
+values over their periods of performance, and CSV exports reflect the filter.
+These charts are not a record of actual cash payments by date.
+
+The former `?q=recipient` search links also work on the new project path. Large
+recipient searches can take time: the existing app retrieves all search pages
+and then requests details for each returned award. API requests time out
+after 30 seconds. Search failures show an error rather than an empty result;
+failed detail lookups retain search values with a visible count warning.
+
+Keep `fedawards.io` online during testing. Do not detach its domain, disable its
+deployment, delete its repository, or cancel its registration until the owner
+has tested and approved the replacement. Test search, details, filters, sorting,
+annual/quarterly charts, CSV export, query links, and navigation on the personal
+domain before retiring the old site. No domain/DNS settings were changed for
+this integration. The personal-site copy is maintained in this repository.
+
 ## Deploy on Netlify
 
 This site uses Netlify with the repository root as its publish directory and an

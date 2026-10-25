@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FedAwards | Nikhil Baddam</title>
+  <meta name="description" content="Explore federal contract awards by recipient, with searchable records, charts, and CSV downloads powered by USASpending.gov.">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <style>
+    :root {
+      --bg:           #F1F5F9;
+      --surface:      #FFFFFF;
+      --border:       #E2E8F0;
+      --text:         #1E293B;
+      --muted:        #64748B;
+      --faint:        #94A3B8;
+      --accent:       #2563EB;
+      --accent-h:     #1D4ED8;
+      --header-bg:    #0F172A;
+      --header-text:  #F8FAFC;
+      --header-muted: #94A3B8;
+      --row-hover:    #EFF6FF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Search screen ─────────────────────────────────────────────────── */
+    #search-screen {
+      height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #07090F;
+      position: relative; overflow: hidden;
+    }
+    #search-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(30,43,70,0.5) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    #search-screen::after {
+      content: '';
+      position: absolute;
+      width: 800px; height: 400px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(59,130,246,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .search-card {
+      position: relative; z-index: 1;
+      width: min(560px, 90vw);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      animation: rise 0.55s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .recipient-wrap {
+      width: 100%; display: flex; align-items: center;
+      background: #0C1525; border: 1.5px solid #1A2B44;
+      border-radius: 999px; overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .recipient-wrap:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.14);
+    }
+    .recipient-input {
+      flex: 1; min-width: 0; padding: 16px 22px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E8EFFF; outline: none;
+      caret-color: var(--accent); font-family: inherit;
+    }
+    .recipient-input::placeholder { color: #2D3F5C; }
+    .search-btn {
+      margin: 6px; padding: 11px 24px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 999px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s; font-family: inherit;
+    }
+    .search-btn:hover { background: var(--accent-h); }
+    .search-attr { font-size: 11px; color: #1E2D46; letter-spacing: 0.05em; }
+    .search-error {
+      width: 100%; padding: 10px 16px; background: rgba(197,48,48,0.12);
+      border: 1px solid rgba(197,48,48,0.3); border-radius: 8px;
+      color: #FC8181; font-size: 0.79rem; display: none;
+    }
+
+    /* ─── Loading ───────────────────────────────────────────────────────── */
+    #loading-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,23,42,0.5); backdrop-filter: blur(3px);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    #loading-overlay.active { display: flex; }
+    .loader-card {
+      background: var(--surface); border-radius: 12px;
+      padding: 28px 36px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .spinner {
+      width: 34px; height: 34px; border: 3px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.7s linear infinite; margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-title { font-size: 0.88rem; font-weight: 600; }
+    .loader-sub   { font-size: 0.74rem; color: var(--muted); margin-top: 3px; }
+
+    /* ─── App shell ─────────────────────────────────────────────────────── */
+    #app { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
+    #app.visible { display: flex; }
+
+    /* ─── Toolbar ───────────────────────────────────────────────────────── */
+    .toolbar {
+      height: 48px; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 24px; gap: 10px; flex-shrink: 0;
+    }
+    .search-wrap {
+      position: relative; display: flex; align-items: center;
+    }
+    .search-icon {
+      position: absolute; left: 10px; color: var(--faint); font-size: 0.8rem; pointer-events: none;
+    }
+    .search-input {
+      padding: 6px 10px 6px 30px; border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.8rem; color: var(--text);
+      background: var(--bg); width: 240px; outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .search-input:focus { border-color: var(--accent); background: var(--surface); }
+    .toolbar-sep { width: 1px; height: 18px; background: var(--border); margin: 0 2px; }
+    .filter-label { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); }
+    .filter-sel {
+      padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.78rem; color: var(--text); background: var(--surface); cursor: pointer;
+    }
+    .filter-sel:focus { outline: none; border-color: var(--accent); }
+    .toolbar-count { font-size: 0.72rem; color: var(--faint); }
+    .toolbar-query {
+      font-size: 0.75rem; color: var(--muted); font-weight: 500;
+      white-space: nowrap; margin-left: auto; padding: 0 4px;
+    }
+    .toolbar-query strong { color: var(--text); font-weight: 600; }
+    .btn-new-file, .btn-export {
+      padding: 6px 16px; background: transparent;
+      border: 1.5px solid var(--border); color: var(--text);
+      border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .btn-new-file:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+    .btn-export { border-color: var(--border); color: var(--muted); }
+    .btn-export:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+    .results-warning { flex-shrink: 0; padding: 10px 24px; background: #FFFBEB; border-bottom: 1px solid #FDE68A; color: #92400E; font-size: 12px; line-height: 1.5; }
+    .results-warning[hidden] { display: none; }
+
+    /* ─── Table container ───────────────────────────────────────────────── */
+    .table-wrap { flex: 1; overflow: auto; }
+
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    /* Sticky header */
+    thead th {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--surface);
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--faint);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { color: var(--muted); }
+    thead th.sorted { color: var(--accent); }
+    .sort-arrow { margin-left: 4px; opacity: 0.5; font-size: 0.65rem; }
+    thead th.sorted .sort-arrow { opacity: 1; }
+
+    /* Rows */
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.07s; height: 60px; }
+    tbody tr:hover { background: var(--row-hover); }
+    tbody td { padding: 10px 16px; vertical-align: middle; color: var(--text); }
+
+    /* Column-specific styles — all td base: 0.82rem var(--text) */
+    .col-date   { white-space: nowrap; color: var(--muted); min-width: 110px; }
+    .col-amount { white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; font-weight: 600; min-width: 90px; color: var(--accent); }
+    .col-duration { white-space: nowrap; min-width: 80px; text-align: right; }
+    .dur-pill {
+      display: inline-block; padding: 2px 9px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 0.73rem; color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .col-recipient { min-width: 160px; max-width: 220px; color: var(--text); font-weight: 500; }
+    .col-agency { color: var(--muted); min-width: 140px; max-width: 200px; }
+    .col-type   { white-space: nowrap; color: var(--muted); min-width: 140px; max-width: 200px; }
+    .col-desc   { line-height: 1.55; min-width: 200px; max-width: 260px; }
+
+
+    /* ─── View toggle ───────────────────────────────────────────────────── */
+    .view-toggle { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+    .toggle-btn { padding: 5px 14px; font-size: 0.76rem; font-weight: 500; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.1s, color 0.1s; }
+    .toggle-btn.active { background: var(--accent); color: #fff; }
+    .toggle-btn:not(.active):hover { background: var(--bg); color: var(--text); }
+
+    /* ─── Chart view ─────────────────────────────────────────────────────── */
+    #chart-view { flex: 1; overflow-x: auto; overflow-y: hidden; padding: 20px 24px; display: none; min-height: 0; }
+    #chart-view.visible { display: flex; flex-direction: column; }
+    .chart-card { background: var(--surface); border-radius: 12px; padding: 20px 28px; display: flex; flex-direction: column; flex: 1; width: max-content; min-width: 100%; box-sizing: border-box; min-height: 0; }
+    .chart-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; flex-shrink: 0; }
+    .chart-label { font-size: 0.69rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); }
+    .gran-toggle { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+    .gran-btn { padding: 4px 12px; font-size: 0.73rem; font-weight: 500; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.1s, color 0.1s; }
+    .gran-btn.active { background: var(--accent); color: #fff; }
+    .gran-btn:not(.active):hover { background: var(--bg); color: var(--text); }
+    .chart-canvas-wrap { flex: 1; position: relative; min-height: 0; }
+
+    /* ─── Chart hover tooltip ───────────────────────────────────────────── */
+    #chart-tooltip {
+      display: none; position: fixed; z-index: 300;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+      padding: 12px 14px; min-width: 220px; max-width: 380px;
+      pointer-events: none;
+    }
+    .ct-header {
+      font-size: 0.71rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .ct-body { max-height: 280px; overflow-y: auto; }
+    .ct-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 12px; padding: 5px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.76rem;
+    }
+    .ct-row:last-child { border-bottom: none; }
+    .ct-desc { color: var(--text); flex: 1; line-height: 1.4; }
+    .ct-dates { display: block; font-size: 0.68rem; color: var(--faint); margin-top: 2px; }
+    .ct-amount { color: var(--accent); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    /* Empty state */
+    .empty-row td { padding: 0; border: none; }
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 72px 16px; gap: 6px;
+    }
+    .empty-icon { font-size: 2rem; line-height: 1; margin-bottom: 6px; opacity: 0.45; }
+    .empty-title { font-size: 0.88rem; font-weight: 600; color: var(--muted); }
+    .empty-sub   { font-size: 0.77rem; color: var(--faint); }
+
+    /* Navigation back to the personal-site project collection. */
+    .project-nav { height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 24px; background: #07090F; border-bottom: 1px solid #1A2B44; }
+    .project-nav a { color: #94A3B8; font-size: 12px; text-decoration: none; white-space: nowrap; }
+    .project-nav a:hover { color: #F8FAFC; text-decoration: underline; text-underline-offset: 4px; }
+    .project-nav a:focus-visible { outline: 2px solid #60A5FA; outline-offset: 5px; border-radius: 2px; }
+    .project-nav h1 { font-size: 14px; font-weight: 500; color: #F8FAFC; }
+    #search-screen, #app { height: calc(100vh - 48px); }
+    @media (max-width: 700px) {
+      .project-nav { padding: 0 16px; }
+      .toolbar { height: auto; min-height: 48px; flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
+      .search-wrap { flex: 1 1 180px; }
+      .search-input { width: 100%; }
+      .toolbar-query { margin-left: 0; white-space: normal; }
+      .chart-header { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<nav class="project-nav" aria-label="Project navigation">
+  <a href="/#projects">← Projects</a>
+  <h1>FedAwards</h1>
+</nav>
+
+<!-- Search -->
+<div id="search-screen">
+  <div class="search-card">
+    <div class="recipient-wrap">
+      <input class="recipient-input" id="recipient-input" type="text" aria-label="Recipient name"
+             placeholder="Search federal contract awards…" autocomplete="off"
+             onkeydown="if(event.key==='Enter') searchRecipient()" />
+      <button class="search-btn" id="search-btn" onclick="searchRecipient()">Search</button>
+    </div>
+    <span class="search-attr">USASpending.gov</span>
+    <div class="search-error" id="search-error" role="alert"></div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div id="loading-overlay">
+  <div class="loader-card">
+    <div class="spinner"></div>
+    <div class="loader-title" id="loader-title">Searching…</div>
+    <div class="loader-sub"   id="loader-sub"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="toolbar">
+    <div class="view-toggle">
+      <button class="toggle-btn active" data-view="table" onclick="showView('table')">List</button>
+      <button class="toggle-btn"        data-view="chart" onclick="showView('chart')">Chart</button>
+    </div>
+    <div class="search-wrap" id="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" id="search" type="text" aria-label="Filter awards" placeholder="Filter by agency, description…" oninput="applyFilters()" />
+    </div>
+    <span class="toolbar-query" id="toolbar-query"></span>
+    <button class="btn-export" id="btn-export" onclick="exportCSV()" style="display:none">↓ Export CSV</button>
+    <button class="btn-new-file" onclick="resetToSearch()">New Search</button>
+  </div>
+
+  <div class="results-warning" id="results-warning" role="status" hidden></div>
+
+  <div id="chart-view">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="gran-toggle">
+          <button class="gran-btn active" data-gran="annual"    onclick="setGranularity('annual')">Annual</button>
+          <button class="gran-btn"        data-gran="quarterly" onclick="setGranularity('quarterly')">Quarterly</button>
+        </div>
+        <div class="chart-label">Contract Totals Over Period of Performance</div>
+      </div>
+      <div class="chart-canvas-wrap"><canvas id="revenue-chart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="table-wrap" id="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="setSort('awardDate')"      id="th-awardDate">Award Date <span class="sort-arrow">↕</span></th>
+          <th onclick="setSort('recipientName')"  id="th-recipientName">Recipient Name <span class="sort-arrow">↕</span></th>
+          <th onclick="setSort('amount')"         id="th-amount" style="text-align:right">Contract Value <span class="sort-arrow">↕</span></th>
+          <th onclick="setSort('duration')"       id="th-duration" style="text-align:right">Duration <span class="sort-arrow">↕</span></th>
+          <th onclick="setSort('agency')"         id="th-agency">Agency <span class="sort-arrow">↕</span></th>
+          <th onclick="setSort('awardType')"      id="th-awardType">Type <span class="sort-arrow">↕</span></th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function $(id) { return document.getElementById(id); }
+
+function parseDate(s) {
+  if (!s) return null;
+  s = String(s).trim();
+  if (!s) return null;
+  const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return new Date(+iso[1], +iso[2]-1, +iso[3]);
+  const mdy = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if (mdy) return new Date(+mdy[3], +mdy[1]-1, +mdy[2]);
+  const d = new Date(s);
+  return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function parseDollar(s) {
+  if (s == null || s === '') return null;
+  if (typeof s === 'number') return s;
+  const n = parseFloat(String(s).replace(/[$,\s]/g, ''));
+  return isNaN(n) ? null : n;
+}
+
+function fmtMoney(n) {
+  if (n == null) return '—';
+  const abs = Math.abs(n);
+  if (abs >= 1e9) return '$'+(n/1e9).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})+'B';
+  if (abs >= 1e6) return '$'+(n/1e6).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})+'M';
+  if (abs >= 1e3) return '$'+(n/1e3).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})+'K';
+  return '$'+n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── State ────────────────────────────────────────────────────────────────────
+let allAwards = [], filtered = [];
+let sortKey = 'amount', sortDir = -1;
+let currentView = 'table', chartInstance = null, quarterBreakdown = {}, chartGranularity = 'annual';
+let currentSearchTerm = '';
+
+// ── Award type names ─────────────────────────────────────────────────────────
+const CONTRACT_TYPE_NAMES = {
+  'A': 'BPA Call', 'B': 'Purchase Order', 'C': 'Delivery Order', 'D': 'Definitive Contract',
+  'IDV_A': 'GWAC', 'IDV_B': 'IDC', 'IDV_B_A': 'GSA Schedule',
+  'IDV_B_B': 'Govt-Wide IDC', 'IDV_B_C': 'Multi-Agency',
+};
+function fmtAwardType(code) {
+  if (!code) return '—';
+  return CONTRACT_TYPE_NAMES[code] || code;
+}
+
+// ── API ──────────────────────────────────────────────────────────────────────
+const API_URL = 'https://api.usaspending.gov/api/v2/search/spending_by_award/';
+
+const REQUEST_TIMEOUT_MS = 30_000;
+class AwardRequestError extends Error {}
+
+async function fetchJSON(url, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    if (!response.ok) {
+      throw new AwardRequestError(`USASpending returned HTTP ${response.status}. Please try again.`);
+    }
+    return await response.json();
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new AwardRequestError('USASpending took too long to respond. Please try again.');
+    }
+    if (error instanceof AwardRequestError) throw error;
+    throw new AwardRequestError('Could not load a response from USASpending. Please try again.');
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// Each group must contain codes from the same USASpending group (API enforced).
+// Action Date is null at prime-award level — use Start Date as display fallback.
+// IDV End Date is null (ordering period, not POP) — exclude from chart.
+const AWARD_TYPE_GROUPS = [
+  {
+    codes:  ['A','B','C','D'],
+    fields: ['Award ID','Action Date','Start Date','End Date','Award Amount','Current Total Value Of Award','Recipient Name','Awarding Agency','Contract Award Type','Description'],
+    sort:   'Award ID',
+    map: r => ({
+      awardDate:     parseDate(r['Action Date']) || parseDate(r['Start Date']),
+      startDate:     parseDate(r['Start Date']),
+      endDate:       parseDate(r['End Date']),
+      amount:        parseDollar(r['Current Total Value Of Award'] ?? r['Award Amount']) ?? 0,
+      recipientName: r['Recipient Name'] || null,
+      agency:        r['Awarding Agency'] || null,
+      awardType:     r['Contract Award Type'] || null,
+      description:   r['Description'] || null,
+    }),
+  },
+  {
+    // IDVs: End Date is often null (ceiling contracts). Award Amount is also often 0.
+    // Still fetch them for the list view, but endDate=null means chart excludes them.
+    codes:  ['IDV_A','IDV_B','IDV_B_A','IDV_B_B','IDV_B_C'],
+    fields: ['Award ID','Start Date','End Date','Award Amount','Current Total Value Of Award','Recipient Name','Awarding Agency','Contract Award Type','Description'],
+    sort:   'Award ID',
+    map: r => ({
+      awardDate:     parseDate(r['Start Date']),
+      startDate:     parseDate(r['Start Date']),
+      endDate:       parseDate(r['End Date']),
+      amount:        parseDollar(r['Current Total Value Of Award'] ?? r['Award Amount']) ?? 0,
+      recipientName: r['Recipient Name'] || null,
+      agency:        r['Awarding Agency'] || null,
+      awardType:     r['Contract Award Type'] || null,
+      description:   r['Description'] || null,
+    }),
+  },
+];
+
+async function fetchGroup(name, group) {
+  let page = 1, results = [];
+  while (true) {
+    const data = await fetchJSON(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        filters: { award_type_codes: group.codes, recipient_search_text: [name] },
+        fields:  group.fields,
+        sort:    group.sort,
+        limit:   100,
+        page,
+      }),
+    });
+    if (!data || !Array.isArray(data.results)) {
+      throw new AwardRequestError('USASpending returned an unreadable award list. Please try again.');
+    }
+    results = results.concat(data.results.map(r => ({ ...group.map(r), _id: r.internal_id })));
+    if (!data.page_metadata?.hasNext) break;
+    page++;
+  }
+  return results;
+}
+
+async function searchRecipient() {
+  showResultsWarning(0);
+  const name = $('recipient-input').value.trim();
+  if (!name) { showErr('Enter a recipient name to search.'); return; }
+  currentSearchTerm = name;
+  showErr('');
+  showLoading('Searching USASpending…', 'Querying contracts…');
+
+  try {
+    const allResults = (await Promise.all(AWARD_TYPE_GROUPS.map(g => fetchGroup(name, g)))).flat();
+    $('loader-sub').textContent = `${allResults.length.toLocaleString()} awards found`;
+
+    if (!allResults.length) {
+      hideLoading();
+      showErr('No awards found. Try a partial name (e.g. "Raytheon" instead of the full legal name).');
+      return;
+    }
+    await processAPIResults(allResults);
+  } catch(e) {
+    hideLoading();
+    showErr('Error: ' + e.message);
+  }
+}
+
+async function fetchContractAmounts(awards) {
+  const BATCH = 10;
+  let failed = 0;
+  for (let i = 0; i < awards.length; i += BATCH) {
+    const batch = awards.slice(i, i + BATCH);
+    await Promise.all(batch.map(async a => {
+      if (!a._id) return;
+      try {
+        const d = await fetchJSON(`https://api.usaspending.gov/api/v2/awards/${a._id}/`);
+        const val = parseDollar(
+          d.latest_transaction_contract_data?.current_total_value_of_award ??
+          d.base_exercised_options ??
+          d.total_obligation
+        );
+        if (val != null) a.amount = val;
+        else failed++;
+      } catch { failed++; }
+    }));
+    $('loader-sub').textContent = `Enriching amounts… ${Math.min(i + BATCH, awards.length)}/${awards.length}`;
+  }
+  return failed;
+}
+
+async function processAPIResults(results) {
+  // Deduplicate by internal_id (same award can appear under multiple name variants)
+  const seenIds = new Set();
+  const unique = results.filter(a => {
+    if (!a._id) return true;
+    if (seenIds.has(a._id)) return false;
+    seenIds.add(a._id); return true;
+  });
+
+  let awards = unique.map(a => {
+    a.duration = (a.startDate && a.endDate)
+      ? Math.round((a.endDate.getFullYear() - a.startDate.getFullYear()) * 12 + (a.endDate.getMonth() - a.startDate.getMonth()))
+      : null;
+    return a;
+  }).filter(a => a.startDate);
+
+  // Fetch precise contract amounts (base + exercised options) from award detail API
+  const contracts = awards.filter(a => a._id);
+  let failedDetails = 0;
+  if (contracts.length) {
+    showLoading('Fetching award details…', `0/${contracts.length}`);
+    failedDetails = await fetchContractAmounts(contracts);
+  }
+  // Strip internal field
+  awards.forEach(a => delete a._id);
+  allAwards = awards;
+  showResultsWarning(failedDetails);
+
+  hideLoading();
+  if (!allAwards.length) { showErr('No awards with readable dates found.'); return; }
+
+  $('search-screen').style.display = 'none';
+  $('app').classList.add('visible');
+  $('toolbar-query').innerHTML = `Results for <strong>"${esc(currentSearchTerm)}"</strong>`;
+  $('btn-export').style.display = '';
+  history.pushState({}, '', '?q=' + encodeURIComponent(currentSearchTerm));
+  populateFilters();
+  applyFilters();
+}
+
+// ── Loading / error ──────────────────────────────────────────────────────────
+function showResultsWarning(failed) {
+  const el = $('results-warning');
+  el.textContent = failed
+    ? `Details unavailable for ${failed.toLocaleString()} ${failed === 1 ? 'award' : 'awards'}; amounts use the search results.`
+    : '';
+  el.hidden = !failed;
+}
+function showErr(msg) {
+  const el = $('search-error');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+function showLoading(title, sub) {
+  $('loader-title').textContent = title;
+  $('loader-sub').textContent   = sub || '';
+  $('loading-overlay').classList.add('active');
+}
+function hideLoading() { $('loading-overlay').classList.remove('active'); }
+
+// ── Filters & sort ──────────────────────────────────────────────────────────
+function populateFilters() {}
+
+function applyFilters() {
+  const q = $('search').value.toLowerCase();
+
+  filtered = allAwards.filter(a =>
+    !q || [a.recipientName, a.agency, a.description].some(s => s?.toLowerCase().includes(q))
+  );
+
+  sortAndRender();
+}
+
+function setSort(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = key === 'amount' ? -1 : 1; }
+  sortAndRender();
+}
+
+function sortAndRender() {
+  filtered.sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (va instanceof Date) va = va.getTime();
+    if (vb instanceof Date) vb = vb.getTime();
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    va = va ?? (typeof va === 'number' ? -Infinity : '');
+    vb = vb ?? (typeof vb === 'number' ? -Infinity : '');
+    return (va < vb ? -1 : va > vb ? 1 : 0) * sortDir;
+  });
+
+  updateSortHeaders();
+  renderTable();
+  if (currentView === 'chart') renderChart();
+}
+
+function updateSortHeaders() {
+  ['awardDate','recipientName','amount','duration','agency','awardType'].forEach(k => {
+    const th = $('th-'+k);
+    if (!th) return;
+    th.classList.toggle('sorted', k === sortKey);
+    th.querySelector('.sort-arrow').textContent = k === sortKey ? (sortDir === 1 ? '↑' : '↓') : '↕';
+  });
+}
+
+function updateHeader() {}
+
+// ── View switching ───────────────────────────────────────────────────────────
+function showView(v) {
+  currentView = v;
+  $('table-wrap').style.display = v === 'table' ? '' : 'none';
+  $('chart-view').classList.toggle('visible', v === 'chart');
+  document.querySelectorAll('.toggle-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === v));
+  if (v === 'chart') renderChart();
+}
+
+// ── Chart ────────────────────────────────────────────────────────────────────
+function buildChartData(granularity) {
+  const buckets = {};
+  quarterBreakdown = {};
+
+  for (const a of filtered) {
+    if (!a.startDate || !a.endDate || !a.amount) continue;
+    const end = a.endDate;
+    if (end < a.startDate) continue;
+
+    const totalDays = (end - a.startDate) / 86400000 + 1;
+    if (totalDays <= 0) continue;
+
+    if (granularity === 'annual') {
+      const startY = a.startDate.getFullYear();
+      const endY   = end.getFullYear();
+      for (let yr = startY; yr <= endY; yr++) {
+        const yStart = new Date(yr, 0, 1);
+        const yEnd   = new Date(yr, 11, 31);
+        const oStart = new Date(Math.max(a.startDate.getTime(), yStart.getTime()));
+        const oEnd   = new Date(Math.min(end.getTime(), yEnd.getTime()));
+        const days = (oEnd - oStart) / 86400000 + 1;
+        if (days <= 0) continue;
+        const amt = a.amount * days / totalDays;
+        const key = `${yr}`;
+        buckets[key] = (buckets[key] || 0) + amt;
+        if (!quarterBreakdown[key]) quarterBreakdown[key] = [];
+        quarterBreakdown[key].push({ description: a.description, agency: a.agency, amount: amt, startDate: a.startDate, endDate: a.endDate });
+      }
+    } else {
+      let y = a.startDate.getFullYear(), q = Math.floor(a.startDate.getMonth() / 3);
+      const endY = end.getFullYear(), endQ = Math.floor(end.getMonth() / 3);
+      while (y < endY || (y === endY && q <= endQ)) {
+        const qStart = new Date(y, q * 3, 1);
+        const qEnd   = new Date(y, q * 3 + 3, 0); // last day of quarter
+        const oStart = new Date(Math.max(a.startDate.getTime(), qStart.getTime()));
+        const oEnd   = new Date(Math.min(end.getTime(), qEnd.getTime()));
+        const days = (oEnd - oStart) / 86400000 + 1;
+        if (days > 0) {
+          const key = `${y}-Q${q + 1}`;
+          const amt = a.amount * days / totalDays;
+          buckets[key] = (buckets[key] || 0) + amt;
+          if (!quarterBreakdown[key]) quarterBreakdown[key] = [];
+          quarterBreakdown[key].push({ description: a.description, agency: a.agency, amount: amt, startDate: a.startDate, endDate: a.endDate });
+        }
+        if (++q > 3) { q = 0; y++; }
+      }
+    }
+  }
+  return buckets;
+}
+
+function setGranularity(g) {
+  chartGranularity = g;
+  document.querySelectorAll('.gran-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.gran === g));
+  renderChart();
+}
+
+function externalTooltip({ chart, tooltip }) {
+  let el = document.getElementById('chart-tooltip');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'chart-tooltip';
+    document.body.appendChild(el);
+  }
+
+  if (tooltip.opacity === 0) { el.style.display = 'none'; return; }
+
+  const key    = tooltip.title?.[0] ?? '';
+  const total  = tooltip.dataPoints?.[0]?.raw ?? 0;
+  const awards = (quarterBreakdown[key] || []).slice().sort((a, b) => b.amount - a.amount);
+
+  el.innerHTML = `
+    <div class="ct-header">${esc(key)} &nbsp;·&nbsp; ${fmtMoney(total)}</div>
+    <div class="ct-body">${awards.map(a => `
+      <div class="ct-row">
+        <span class="ct-desc">
+          ${esc(a.description || a.agency || '—')}
+          <span class="ct-dates">${a.startDate ? fmtDate(a.startDate) : '?'} → ${a.endDate ? fmtDate(a.endDate) : '?'}</span>
+        </span>
+        <span class="ct-amount">${fmtMoney(a.amount)}</span>
+      </div>`).join('')}
+    </div>`;
+
+  const rect = chart.canvas.getBoundingClientRect();
+  const cx = rect.left + tooltip.caretX;
+  const cy = rect.top  + tooltip.caretY;
+
+  // Constrain body height to what fits in the viewport
+  const body = el.querySelector('.ct-body');
+  if (body) body.style.maxHeight = '';
+
+  el.style.display    = 'block';
+  el.style.visibility = 'hidden';
+  el.style.left = '0';
+  el.style.top  = '0';
+
+  if (body) {
+    const headerH  = (el.querySelector('.ct-header') || {}).offsetHeight || 0;
+    const padV     = 24;
+    const maxAvail = window.innerHeight - 16 - headerH - padV;
+    body.style.maxHeight = Math.max(80, maxAvail) + 'px';
+  }
+
+  const tw = el.offsetWidth, th = el.offsetHeight;
+  el.style.visibility = 'visible';
+
+  // Horizontal: prefer right, flip left
+  let left = cx + 14;
+  if (left + tw > window.innerWidth - 8) left = cx - tw - 14;
+  if (left < 8) left = 8;
+
+  // Vertical: anchor to caret, flip above if not enough room below
+  const spaceBelow = window.innerHeight - cy - 8;
+  let top = spaceBelow >= th ? cy : Math.max(8, cy - th);
+
+  el.style.left = left + 'px';
+  el.style.top  = top  + 'px';
+}
+
+function renderChart() {
+  const buckets = buildChartData(chartGranularity);
+  const keys    = Object.keys(buckets).sort();
+  const values  = keys.map(k => buckets[k]);
+
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+  const BAR_WIDTH = 72;
+  const canvasWrap = document.querySelector('.chart-canvas-wrap');
+  const HEIGHT    = Math.max(200, canvasWrap.clientHeight);
+  const canvas    = $('revenue-chart');
+  const chartW    = Math.max($('chart-view').clientWidth - 56, keys.length * BAR_WIDTH);
+  canvas.width    = chartW;
+  canvas.height   = HEIGHT;
+  canvas.style.width  = chartW + 'px';
+  canvas.style.height = HEIGHT + 'px';
+
+  const ctx  = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, HEIGHT);
+  grad.addColorStop(0,   'rgba(37,99,235,0.88)');
+  grad.addColorStop(1,   'rgba(37,99,235,0.18)');
+
+  chartInstance = new Chart(ctx, {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: keys,
+      datasets: [{
+        data: values,
+        backgroundColor: grad,
+        borderColor:     'rgba(37,99,235,0.7)',
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: false,
+      interaction: { mode: 'nearest', intersect: true },
+      plugins: {
+        legend:  { display: false },
+        tooltip: { enabled: false, external: externalTooltip },
+        datalabels: {
+          anchor: 'end',
+          align:  'end',
+          formatter: v => fmtMoney(v),
+          font:  { size: 10, weight: '600' },
+          color: '#64748B',
+          offset: 2,
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#94A3B8' } },
+        y: {
+          display: true,
+          grid: { color: 'rgba(148,163,184,0.13)' },
+          ticks: { display: false },
+          border: { display: false },
+        }
+      },
+      layout: { padding: { top: 28, right: 8 } }
+    }
+  });
+}
+
+// ── Render ──────────────────────────────────────────────────────────────────
+function renderTable() {
+  updateHeader();
+
+  const tbody = $('table-body');
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">No awards match</div>
+        <div class="empty-sub">Try adjusting the filter above</div>
+      </div></td></tr>`;
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  for (const a of filtered) {
+    const durCell = a.duration != null
+      ? `<span class="dur-pill">${a.duration} mo</span>`
+      : '—';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="col-date">${a.awardDate ? fmtDate(a.awardDate) : '—'}</td>
+      <td class="col-recipient">${esc(a.recipientName || '—')}</td>
+      <td class="col-amount">${fmtMoney(a.amount)}</td>
+      <td class="col-duration">${durCell}</td>
+      <td class="col-agency">${esc(a.agency || '—')}</td>
+      <td class="col-type">${esc(fmtAwardType(a.awardType))}</td>
+      <td class="col-desc">${esc(a.description || '—')}</td>
+    `;
+    frag.appendChild(tr);
+  }
+
+  tbody.innerHTML = '';
+  tbody.appendChild(frag);
+}
+
+// ── Export CSV ───────────────────────────────────────────────────────────────
+function exportCSV() {
+  if (!filtered.length) return;
+  const headers = ['Award Date','Recipient Name','Contract Value','Duration (mo)','Agency','Type','Description'];
+  const rows = filtered.map(a => [
+    a.awardDate ? fmtDate(a.awardDate) : '',
+    a.recipientName || '',
+    a.amount != null ? a.amount : '',
+    a.duration != null ? a.duration : '',
+    a.agency || '',
+    fmtAwardType(a.awardType),
+    a.description || '',
+  ]);
+  const csv = [headers, ...rows]
+    .map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
+    .join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `${currentSearchTerm || 'awards'}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Reset ────────────────────────────────────────────────────────────────────
+function resetToSearch() {
+  showResultsWarning(0);
+  allAwards = []; filtered = [];
+  sortKey = 'amount'; sortDir = -1;
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  const tip = document.getElementById('chart-tooltip');
+  if (tip) tip.style.display = 'none';
+  quarterBreakdown = {};
+  chartGranularity = 'annual';
+  document.querySelectorAll('.gran-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.gran === 'annual'));
+  currentView = 'table';
+  $('table-wrap').style.display = '';
+  $('chart-view').classList.remove('visible');
+  document.querySelectorAll('.toggle-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === 'table'));
+  $('app').classList.remove('visible');
+  $('search-screen').style.display = '';
+  $('search').value = '';
+  $('recipient-input').value = '';
+  $('toolbar-query').innerHTML = '';
+  $('btn-export').style.display = 'none';
+  currentSearchTerm = '';
+  history.pushState({}, '', location.pathname);
+  showErr('');
+}
+// ── Auto-search from URL ──────────────────────────────────────────────────────
+const _q = new URLSearchParams(location.search).get('q');
+if (_q) { $('recipient-input').value = _q; searchRecipient(); }
+</script>
+</body>
+</html>
