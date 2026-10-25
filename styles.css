@@ -69,9 +69,10 @@ h1 { margin: 0; font-family: var(--font); font-size: clamp(29px, 4.5vw, 44px); f
 .article-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 .article-card h2 { margin: 0; padding: 18px 20px 22px; font-size: 17px; font-weight: 500; line-height: 1.5; letter-spacing: -0.25px; }
 .article-card:hover { border-color: #929f92; box-shadow: 0 4px 16px #272b290a; }
-.writing-card h2 { padding-bottom: 6px; }
+#writing-panel .article-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 310px)); }
+.writing-card h2 { padding: 16px 16px 6px; font-size: 16px; }
 .writing-card .article-date, .essay-header .article-date { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
-.writing-card .article-date { padding: 0 20px 20px; }
+.writing-card .article-date { padding: 0 16px 16px; }
 .essay-header .article-date { margin-top: 14px; }
 
 /* Fade only the decorative image; keep all article text fully opaque. */
