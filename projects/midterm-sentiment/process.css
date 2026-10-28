@@ -143,7 +143,7 @@
 #process-workflow .pw-detail-labels p { font-size: 12px; line-height: 1.7; }
 #process-workflow .pw-detail-equation { border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); margin: 0 0 18px; padding: 15px 17px; }
 #process-workflow .pw-detail-equation > span { display: block; text-transform: uppercase; letter-spacing: .10em; font-size: 9px; font-weight: 700; color: var(--ms-sub, #66796c); margin-bottom: 9px; }
-#process-workflow .pw-detail-equation code { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; letter-spacing: -.03em; line-height: 1.8; white-space: normal; overflow-wrap: anywhere; color: var(--ms-ink, #213c31); }
+#process-workflow .pw-detail-equation code { display: block; font-family: inherit; font-size: 13px; letter-spacing: -.03em; line-height: 1.8; white-space: normal; overflow-wrap: anywhere; color: var(--ms-ink, #213c31); }
 #process-workflow .pw-detail-gate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin: 19px 0; }
 #process-workflow .pw-detail-gate > div { padding: 12px 13px; border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); }
 #process-workflow .pw-detail-gate > div:last-child { background: var(--pw-jev-bg, var(--ms-soft, #e9f0e4)); border-color: var(--pw-jev-rule, var(--ms-rule, #b9cdb3)); }

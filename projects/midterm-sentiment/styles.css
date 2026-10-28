@@ -9,7 +9,7 @@
   --ms-neutral:light-dark(#a2b0a8,#87998c);--ms-unclear:light-dark(#d3d8cf,#56675b);
   --ms-radius:3px;--ms-gap:20px;
   color-scheme:light;color:var(--ms-ink);background:var(--ms-bg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-family:inherit;
   font-size:14px;line-height:1.45;min-height:970px;overflow:clip;
 }
 #midterm-sentiment-mockup .ms-app * {box-sizing:border-box;}
@@ -107,7 +107,7 @@
 
 /* Native webpage navigation; the preview wrapper is no longer required. */
 :root {color-scheme:light;background:#fff;}
-body {margin:0;}
+body {margin:0;font-family:Arial,sans-serif;}
 [hidden] {display:none !important;}
 #midterm-sentiment-mockup {max-width:1360px;margin:0 auto;}
 #midterm-sentiment-mockup .ms-app {min-height:100vh;}
