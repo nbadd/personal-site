@@ -1,15 +1,15 @@
 
 #midterm-sentiment-mockup {width:100%;}
 #midterm-sentiment-mockup .ms-app {
-  --ms-bg:light-dark(#f5f6f2,#141b19);--ms-panel:light-dark(#ffffff,#1c2522);
-  --ms-ink:light-dark(#1c302b,#edf2ee);--ms-sub:light-dark(#5b6b64,#b0beb5);
-  --ms-rule:light-dark(#dce3db,#37473e);--ms-soft:light-dark(#eaf0e8,#25362d);
+  --ms-bg:#fff;--ms-panel:#fff;
+  --ms-ink:#242424;--ms-sub:#666;
+  --ms-rule:#ddd;--ms-soft:#f6f6f6;
   --ms-a:light-dark(#267760,#71c3a3);--ms-b:light-dark(#776492,#b5a1d0);
   --ms-for:light-dark(#3d886d,#72b99b);--ms-against:light-dark(#b87b4e,#d49a6d);
   --ms-neutral:light-dark(#a2b0a8,#87998c);--ms-unclear:light-dark(#d3d8cf,#56675b);
-  --ms-radius:15px;--ms-gap:20px;
-  color-scheme:light dark;color:var(--ms-ink);background:var(--ms-bg);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ms-radius:3px;--ms-gap:20px;
+  color-scheme:light;color:var(--ms-ink);background:var(--ms-bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:14px;line-height:1.45;min-height:970px;overflow:clip;
 }
 #midterm-sentiment-mockup .ms-app * {box-sizing:border-box;}
@@ -21,12 +21,12 @@
 #midterm-sentiment-mockup .ms-topnav a {font-size:13px;color:var(--ms-sub);text-decoration:none;}
 #midterm-sentiment-mockup .ms-state-control {display:flex;gap:7px;align-items:center;}
 #midterm-sentiment-mockup .ms-state-control label {color:var(--ms-sub);font-size:12px;}
-#midterm-sentiment-mockup select {min-height:36px;background:var(--ms-panel);color:var(--ms-ink);border:1px solid var(--ms-rule);border-radius:8px;font-family:inherit;font-size:14px;padding:6px 24px 6px 10px;max-width:100%;}
+#midterm-sentiment-mockup select {min-height:36px;background:var(--ms-panel);color:var(--ms-ink);border:1px solid var(--ms-rule);border-radius:3px;font-family:inherit;font-size:14px;padding:6px 24px 6px 10px;max-width:100%;}
 #midterm-sentiment-mockup button {font:inherit;color:var(--ms-ink);}
 #midterm-sentiment-mockup .ms-content {padding:24px;display:grid;gap:var(--ms-gap);}
 #midterm-sentiment-mockup .ms-hero {display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
 #midterm-sentiment-mockup .ms-eyebrow {font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ms-sub);font-weight:600;margin-bottom:7px;}
-#midterm-sentiment-mockup h1 {font-size:30px;font-weight:600;letter-spacing:-1px;line-height:1.15;margin:0;}
+#midterm-sentiment-mockup h1 {font-size:30px;font-weight:600;letter-spacing:-.4px;line-height:1.15;margin:0;}
 #midterm-sentiment-mockup h2 {font-size:16px;font-weight:600;letter-spacing:-.2px;margin:0;}
 #midterm-sentiment-mockup .ms-demo-note {font-size:12px;color:var(--ms-sub);margin-top:-9px;}
 #midterm-sentiment-mockup .ms-board {display:grid;gap:var(--ms-gap);}
@@ -34,7 +34,7 @@
 #midterm-sentiment-mockup .ms-candidate {background:var(--ms-panel);border:1px solid var(--ms-rule);border-radius:var(--ms-radius);padding:18px 20px;min-width:0;}
 #midterm-sentiment-mockup .ms-candidate-header {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
 #midterm-sentiment-mockup .ms-person {display:flex;align-items:center;gap:10px;min-width:0;}
-#midterm-sentiment-mockup .ms-initials {width:35px;height:35px;display:grid;place-items:center;background:var(--ms-soft);border-radius:50%;font-size:11px;font-weight:600;flex-shrink:0;}
+#midterm-sentiment-mockup .ms-initials {display:none;}
 #midterm-sentiment-mockup .ms-name {font-size:16px;font-weight:600;letter-spacing:-.25px;overflow-wrap:anywhere;}
 #midterm-sentiment-mockup .ms-party {color:var(--ms-sub);font-size:11px;}
 #midterm-sentiment-mockup .ms-scoreline {display:flex;gap:15px;align-items:baseline;justify-content:space-between;margin-top:16px;flex-wrap:wrap;}
@@ -106,7 +106,7 @@
 @media(prefers-reduced-motion:reduce){#midterm-sentiment-mockup .ms-segment {transition:none;}}
 
 /* Native webpage navigation; the preview wrapper is no longer required. */
-:root {color-scheme:light dark;background:light-dark(#f5f6f2,#141b19);}
+:root {color-scheme:light;background:#fff;}
 body {margin:0;}
 [hidden] {display:none !important;}
 #midterm-sentiment-mockup {max-width:1360px;margin:0 auto;}
@@ -114,8 +114,8 @@ body {margin:0;}
 #midterm-sentiment-mockup .ms-top {position:sticky;top:0;z-index:20;}
 #midterm-sentiment-mockup .ms-topnav {margin-left:0;gap:12px;flex-wrap:wrap;}
 #midterm-sentiment-mockup .ms-tabs {display:flex;gap:5px;flex-wrap:wrap;}
-#midterm-sentiment-mockup .ms-nav-button {background:transparent;border:0;border-radius:8px;padding:10px 13px;color:var(--ms-sub);font-size:13px;cursor:pointer;}
-#midterm-sentiment-mockup .ms-nav-button[aria-selected="true"] {background:var(--ms-soft);color:var(--ms-ink);font-weight:600;}
+#midterm-sentiment-mockup .ms-nav-button {background:transparent;border:0;border-bottom:1px solid transparent;border-radius:0;padding:10px 13px;color:var(--ms-sub);font-size:13px;cursor:pointer;}
+#midterm-sentiment-mockup .ms-nav-button[aria-selected="true"] {border-bottom-color:var(--ms-ink);color:var(--ms-ink);font-weight:600;}
 #midterm-sentiment-mockup .ms-state-control {margin-left:auto;}
 #midterm-sentiment-mockup button:focus-visible,#midterm-sentiment-mockup a:focus-visible,#midterm-sentiment-mockup select:focus-visible {outline:2px solid var(--ms-a);outline-offset:3px;}
 @media(max-width:600px){
@@ -133,18 +133,18 @@ body {margin:0;}
 #midterm-sentiment-mockup .ms-week-control label {font-size:11px;color:var(--ms-sub);}
 #midterm-sentiment-mockup .ms-week-control select {font-size:12px;min-width:190px;}
 #midterm-sentiment-mockup .ms-number-pending {font-size:23px;letter-spacing:-.7px;color:var(--ms-sub);line-height:1.4;}
-#midterm-sentiment-mockup .ms-partial-label {font-size:10px;display:inline-flex;border:1px solid light-dark(#dfccb3,#65533d);background:light-dark(#f7f0e4,#352e23);color:light-dark(#7c6441,#d8bb89);padding:5px 7px;border-radius:5px;white-space:nowrap;}
+#midterm-sentiment-mockup .ms-partial-label {font-size:10px;display:inline-flex;border:1px solid var(--ms-rule);background:var(--ms-panel);color:var(--ms-sub);padding:5px 7px;border-radius:5px;white-space:nowrap;}
 #midterm-sentiment-mockup .ms-trendpanel {position:relative;}
-#midterm-sentiment-mockup .ms-chart-empty {position:absolute;left:20%;right:20%;top:49%;text-align:center;color:var(--ms-sub);font-size:12px;line-height:1.8;margin:0;background:var(--ms-panel);padding:12px 18px;border:1px solid var(--ms-rule);border-radius:8px;pointer-events:none;}
+#midterm-sentiment-mockup .ms-chart-empty {position:absolute;left:20%;right:20%;top:49%;text-align:center;color:var(--ms-sub);font-size:12px;line-height:1.8;margin:0;background:var(--ms-panel);padding:12px 18px;border:1px solid var(--ms-rule);border-radius:3px;pointer-events:none;}
 #midterm-sentiment-mockup .ms-chart .ms-week-guide {stroke:var(--ms-sub);stroke-opacity:.2;stroke-dasharray:3 4;}
 #midterm-sentiment-mockup .ms-chart .ms-point-partial {fill:var(--ms-panel);stroke-width:2;}
 #midterm-sentiment-mockup .ms-chart .ms-point-a.ms-point-partial {stroke:var(--ms-a);}
 #midterm-sentiment-mockup .ms-chart .ms-point-b.ms-point-partial {stroke:var(--ms-b);}
 #midterm-sentiment-mockup .ms-chart circle:focus-visible {outline:none;stroke:var(--ms-ink);stroke-width:3;}
 #midterm-sentiment-mockup .ms-mix-missing {font-size:11px;color:var(--ms-sub);background:var(--ms-soft);padding:5px 9px;min-height:24px;border-radius:4px;}
-#midterm-sentiment-mockup .ms-week-details {border:1px solid var(--ms-rule);border-radius:12px;background:var(--ms-panel);min-width:0;}
+#midterm-sentiment-mockup .ms-week-details {border:1px solid var(--ms-rule);border-radius:3px;background:var(--ms-panel);min-width:0;}
 #midterm-sentiment-mockup .ms-week-details > summary {cursor:pointer;padding:16px 20px;font-size:12px;color:var(--ms-ink);font-weight:600;}
-#midterm-sentiment-mockup .ms-week-details > summary:focus-visible {outline:2px solid var(--ms-a);outline-offset:3px;border-radius:10px;}
+#midterm-sentiment-mockup .ms-week-details > summary:focus-visible {outline:2px solid var(--ms-a);outline-offset:3px;border-radius:3px;}
 #midterm-sentiment-mockup .ms-table-scroll {overflow-x:auto;padding:0 20px 12px;}
 #midterm-sentiment-mockup .ms-week-details table {border-collapse:collapse;width:100%;text-align:left;font-size:11px;white-space:nowrap;}
 #midterm-sentiment-mockup .ms-week-details th {padding:10px 12px 11px 0;border-bottom:1px solid var(--ms-rule);font-weight:650;color:var(--ms-sub);font-size:10px;}

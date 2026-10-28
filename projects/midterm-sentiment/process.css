@@ -5,19 +5,19 @@
   --pw-unclear: var(--ms-unclear, #bfc4ba);
   --pw-soft: var(--ms-soft, #f1f4ed);
   --pw-white: var(--ms-panel, #fffefa);
-  --pw-tint: light-dark(#f9faf5, #202c26);
-  --pw-jev-bg: light-dark(#e9f0e4, #283a2d);
-  --pw-jev-rule: light-dark(#b9cdb3, #4c6d4f);
-  --pw-jev-icon: light-dark(#dce8d5, #344b37);
-  --pw-jev-icon-rule: light-dark(#c9dbbf, #476748);
-  --pw-selected-bg: light-dark(#e8efdf, #304432);
-  --pw-selected-rule: light-dark(#b7cba8, #6a8e64);
-  --pw-pill-bg: light-dark(#eeeade, #363529);
-  --pw-pill-rule: light-dark(#e2ddcf, #55503a);
-  --pw-pill-ink: light-dark(#706b50, #d5caa3);
-  --pw-track: light-dark(#e8ece3, #34453b);
-  --pw-score-bg: light-dark(#f1f5ea, #243328);
-  --pw-score-rule: light-dark(#cad7c0, #4b6346);
+  --pw-tint: #fff;
+  --pw-jev-bg: #f6f6f6;
+  --pw-jev-rule: #ddd;
+  --pw-jev-icon: #f6f6f6;
+  --pw-jev-icon-rule: #ddd;
+  --pw-selected-bg: #f6f6f6;
+  --pw-selected-rule: #999;
+  --pw-pill-bg: #fff;
+  --pw-pill-rule: #ddd;
+  --pw-pill-ink: #666;
+  --pw-track: #eee;
+  --pw-score-bg: #fff;
+  --pw-score-rule: #ddd;
   --pw-hatch-a: light-dark(#c6cbbf, #607060);
   --pw-hatch-b: light-dark(#d5dacd, #4d604e);
   color: var(--ms-ink, #213c31);
@@ -33,13 +33,13 @@
 #process-workflow button:focus-visible, #process-workflow input:focus-visible { outline: 3px solid #80a790; outline-offset: 3px; }
 #process-workflow .pw-heading { display: flex; align-items: center; gap: 28px; justify-content: space-between; margin-bottom: 32px; }
 #process-workflow .pw-eyebrow { color: var(--ms-a, #34735c); text-transform: uppercase; letter-spacing: .15em; font-size: 10px; font-weight: 800; margin-bottom: 11px; }
-#process-workflow .pw-heading h2 { font-size: clamp(28px, 3vw, 41px); letter-spacing: -.05em; font-weight: 650; line-height: 1.12; }
+#process-workflow .pw-heading h2 { font-size: clamp(26px, 3vw, 34px); letter-spacing: -.025em; font-weight: 650; line-height: 1.12; }
 #process-workflow .pw-step { font-size: 11px; letter-spacing: .07em; color: var(--ms-sub, #66796c); font-variant-numeric: tabular-nums; }
 #process-workflow .pw-section-heading { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; margin: 42px 0 17px; }
 #process-workflow .pw-section-heading h3 { font-size: clamp(20px, 2.1vw, 26px); font-weight: 650; letter-spacing: -.04em; line-height: 1.2; }
 #process-workflow .pw-section-heading .pw-eyebrow { margin-bottom: 9px; }
-#process-workflow .pw-illustrative { padding: 6px 9px; font-size: 9px; font-weight: 600; background: var(--pw-pill-bg); border: 1px solid var(--pw-pill-rule); border-radius: 5px; color: var(--pw-pill-ink); flex-shrink: 0; }
-#process-workflow .pw-card { overflow: hidden; background: var(--pw-white); border: 1px solid var(--ms-rule, #dce2d7); border-radius: 16px; }
+#process-workflow .pw-illustrative { padding: 6px 9px; font-size: 9px; font-weight: 600; background: var(--pw-pill-bg); border: 1px solid var(--pw-pill-rule); border-radius:3px; color: var(--pw-pill-ink); flex-shrink: 0; }
+#process-workflow .pw-card { overflow: hidden; background: var(--pw-white); border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; }
 #process-workflow h4 { font-size: 14px; font-weight: 700; line-height: 1.35; letter-spacing: -.02em; }
 #process-workflow .pw-helper { color: var(--ms-sub, #66796c); font-size: 11px; line-height: 1.65; margin-top: 8px; }
 #process-workflow .pw-small-label { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--ms-sub, #66796c); }
@@ -52,7 +52,7 @@
 #process-workflow .pw-calculator { display: grid; grid-template-columns: 1fr 1.08fr; }
 #process-workflow .pw-count-inputs { padding: 26px 28px; min-width: 0; }
 #process-workflow .pw-count-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin-top: 25px; }
-#process-workflow .pw-count { display: block; background: var(--pw-tint); border: 1px solid var(--ms-rule, #dce2d7); padding: 12px 9px 8px; border-radius: 8px; min-width: 0; }
+#process-workflow .pw-count { display: block; background: var(--pw-tint); border: 1px solid var(--ms-rule, #dce2d7); padding: 12px 9px 8px; border-radius:3px; min-width: 0; }
 #process-workflow .pw-count > span { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ms-sub, #66796c); }
 #process-workflow .pw-count input { width: 100%; color: var(--ms-ink, #213c31); font-size: 27px; letter-spacing: -.045em; font-weight: 550; line-height: 1.3; background: transparent; border: 0; border-bottom: 1px solid transparent; padding: 7px 0 0; border-radius: 0; font-variant-numeric: tabular-nums; }
 #process-workflow .pw-count input:focus { border-bottom-color: #8aa57a; outline-offset: 2px; }
@@ -74,7 +74,7 @@
 #process-workflow .pw-score-value.pw-score-withheld { font-size: 34px; letter-spacing: -.05em; margin-top: 24px; margin-bottom: 9px; color: var(--ms-sub, #66796c); }
 #process-workflow .pw-score-description { font-size: 10px; color: var(--ms-sub, #66796c); line-height: 1.65; margin-top: 3px; min-height: 17px; }
 #process-workflow .pw-net-gauge { margin-top: 21px; }
-#process-workflow .pw-gauge-track { position: relative; height: 7px; background: linear-gradient(to right, #bd8c78 0%, #d4b8a2 25%, #e2e7d9 50%, #a7c2a0 75%, #3b765c 100%); border-radius: 6px; }
+#process-workflow .pw-gauge-track { position: relative; height: 7px; background: linear-gradient(to right, #bd8c78 0%, #d4b8a2 25%, #e2e7d9 50%, #a7c2a0 75%, #3b765c 100%); border-radius:3px; }
 #process-workflow .pw-gauge-zero { height: 13px; width: 1px; position: absolute; left: 50%; top: -3px; background: var(--ms-sub, #66796c); opacity: .5; }
 #process-workflow [data-pw-gauge-marker] { position: absolute; height: 15px; width: 5px; left: 65%; top: -4px; border-radius: 2px; background: var(--ms-ink, #213c31); box-shadow: 0 0 0 2px var(--pw-score-bg); transform: translateX(-50%); transition: left .25s ease; }
 #process-workflow .pw-gauge-labels { display: flex; justify-content: space-between; margin-top: 9px; color: var(--ms-sub, #66796c); font-size: 9px; font-variant-numeric: tabular-nums; }
@@ -122,9 +122,9 @@
 #process-workflow .pw-heading h2 { max-width: 810px; }
 #process-workflow .pw-details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 39px; }
 #process-workflow .pw-detail-wide { grid-column: 1 / -1; }
-#process-workflow .pw-detail-card { padding: 27px 29px; min-width: 0; background: var(--pw-white, var(--ms-panel, #fffefa)); border: 1px solid var(--ms-rule, #dce2d7); border-radius: 15px; }
+#process-workflow .pw-detail-card { padding: 27px 29px; min-width: 0; background: var(--pw-white, var(--ms-panel, #fffefa)); border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; }
 #process-workflow .pw-detail-card-heading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 21px; }
-#process-workflow .pw-detail-number { display: grid; place-items: center; padding: 0 8px; min-width: 37px; height: 37px; flex: 0 0 auto; border: 1px solid var(--ms-rule, #dce2d7); border-radius: 9px; background: var(--pw-soft, var(--ms-soft, #f1f4ed)); color: var(--ms-a, #34735c); font-size: 11px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
+#process-workflow .pw-detail-number { display: grid; place-items: center; padding: 0 8px; min-width: 37px; height: 37px; flex: 0 0 auto; border: 0; border-radius:0; background: transparent; color: var(--ms-sub, #666); font-size: 11px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
 #process-workflow .pw-detail-kicker { font-size: 10px !important; letter-spacing: .10em; text-transform: uppercase; color: var(--ms-sub, #66796c); margin: 0 0 6px !important; font-weight: 650; line-height: 1.2 !important; }
 #process-workflow .pw-detail-card h4 { font-size: 20px; font-weight: 650; letter-spacing: -.035em; line-height: 1.28; margin: 0; }
 #process-workflow .pw-detail-card p { color: var(--ms-sub, #66796c); font-size: 13px; line-height: 1.85; margin: 0; }
@@ -132,20 +132,20 @@
 #process-workflow .pw-detail-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 38px; }
 #process-workflow .pw-detail-columns > div { min-width: 0; }
 #process-workflow .pw-query-terms { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: 0 0 15px; }
-#process-workflow .pw-query-terms span { border: 1px solid var(--ms-rule, #dce2d7); border-radius: 6px; color: var(--ms-ink, #213c31); background: var(--pw-tint, var(--ms-bg, #f9faf5)); padding: 8px 10px; font-size: 12px; line-height: 1.35; font-weight: 550; }
+#process-workflow .pw-query-terms span { border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; color: var(--ms-ink, #213c31); background: var(--pw-tint, var(--ms-bg, #f9faf5)); padding: 8px 10px; font-size: 12px; line-height: 1.35; font-weight: 550; }
 #process-workflow .pw-query-terms i { font-size: 10px; font-style: normal; color: var(--ms-sub, #66796c); }
-#process-workflow .pw-detail-model { color: var(--ms-a, #34735c); background: var(--pw-soft, var(--ms-soft, #f1f4ed)); padding: 7px 10px; margin-left: auto; border: 1px solid var(--ms-rule, #dce2d7); border-radius: 5px; font-size: 11px; line-height: 1.35; white-space: nowrap; }
+#process-workflow .pw-detail-model { color: var(--ms-a, #34735c); background: var(--pw-soft, var(--ms-soft, #f1f4ed)); padding: 7px 10px; margin-left: auto; border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; font-size: 11px; line-height: 1.35; white-space: nowrap; }
 #process-workflow .pw-detail-question { font-size: 23px; line-height: 1.5; letter-spacing: -.035em; font-weight: 450; padding: 0 0 0 16px; border-left: 2px solid var(--ms-a, #34735c); color: var(--ms-ink, #213c31); margin: 0 0 18px; }
 #process-workflow .pw-detail-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
-#process-workflow .pw-detail-labels > div { position: relative; min-width: 0; padding: 15px 16px 15px 32px; border: 1px solid var(--ms-rule, #dce2d7); border-radius: 9px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); }
+#process-workflow .pw-detail-labels > div { position: relative; min-width: 0; padding: 15px 16px 15px 32px; border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); }
 #process-workflow .pw-detail-labels .pw-label-dot { width: 8px; height: 8px; position: absolute; left: 15px; top: 21px; }
 #process-workflow .pw-detail-labels h5 { margin: 0 0 7px; font-size: 13px; line-height: 1.4; font-weight: 700; letter-spacing: -.01em; color: var(--ms-ink, #213c31); }
 #process-workflow .pw-detail-labels p { font-size: 12px; line-height: 1.7; }
-#process-workflow .pw-detail-equation { border: 1px solid var(--ms-rule, #dce2d7); border-radius: 9px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); margin: 0 0 18px; padding: 15px 17px; }
+#process-workflow .pw-detail-equation { border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); margin: 0 0 18px; padding: 15px 17px; }
 #process-workflow .pw-detail-equation > span { display: block; text-transform: uppercase; letter-spacing: .10em; font-size: 9px; font-weight: 700; color: var(--ms-sub, #66796c); margin-bottom: 9px; }
 #process-workflow .pw-detail-equation code { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; letter-spacing: -.03em; line-height: 1.8; white-space: normal; overflow-wrap: anywhere; color: var(--ms-ink, #213c31); }
 #process-workflow .pw-detail-gate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin: 19px 0; }
-#process-workflow .pw-detail-gate > div { padding: 12px 13px; border: 1px solid var(--ms-rule, #dce2d7); border-radius: 8px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); }
+#process-workflow .pw-detail-gate > div { padding: 12px 13px; border: 1px solid var(--ms-rule, #dce2d7); border-radius:3px; background: var(--pw-tint, var(--ms-bg, #f9faf5)); }
 #process-workflow .pw-detail-gate > div:last-child { background: var(--pw-jev-bg, var(--ms-soft, #e9f0e4)); border-color: var(--pw-jev-rule, var(--ms-rule, #b9cdb3)); }
 #process-workflow .pw-detail-gate strong { display: block; color: var(--ms-ink, #213c31); font-size: 13px; font-weight: 650; letter-spacing: -.02em; line-height: 1.4; }
 #process-workflow .pw-detail-gate span { display: block; color: var(--ms-sub, #66796c); font-size: 11px; margin-top: 4px; line-height: 1.6; }
