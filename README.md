@@ -2,10 +2,12 @@
 
 Nikhil Baddam's static website at https://nikhilbaddam.com/.
 The homepage shows every project, essay, and research paper in one dated collection.
-Blue borders identify projects, ochre borders writing, and purple borders research.
+Vibrant blue borders identify projects, orange borders writing, and purple borders research.
 A top legend identifies the border colors; tiles show dates without category labels.
-Compact tiles use Arial on a white background;
-the homepage has no name heading.
+Compact 210px desktop tiles have rounded corners and use Arial on a white background;
+the homepage has no name heading. The writing tile leads with its title above its
+image, with its top-aligned crop keeping the mountain summit visible. The
+research tile omits the journal byline.
 Existing essay and project URLs are preserved.
 
 ## Preview
@@ -33,9 +35,8 @@ still work.
 
 ## Tile dates
 
-- Midterm Sentiment Analysis: August 10, 2026, the beginning of the saved X data
-  coverage (`weekly-results.json`, week-01). This date follows the owner’s
-  preference to use the start of the scraped data, rather than the app’s launch.
+- Midterm Sentiment Analysis: September 14, 2026, the date selected by the owner
+  for the project tile. The saved dataset begins earlier, on August 10, 2026.
 - Writing: September 17, 2026, preserved from the existing essay metadata.
 - FedAwards: July 9, 2026, the original initial-deploy commit
   (`6aa1accb42b28ee92d2132fecd2b3b1f1cf4f54e`).
