@@ -1,7 +1,12 @@
-# Writing and projects
+# Projects, writing, and research
 
 Nikhil Baddam's static website at https://nikhilbaddam.com/.
-The homepage has a Writing / Projects slider. Existing essay URLs are preserved.
+The homepage shows every project, essay, and research paper in one dated collection.
+Blue borders identify projects, ochre borders writing, and purple borders research.
+A top legend identifies the border colors; tiles show dates without category labels.
+Compact tiles use Arial on a white background;
+the homepage has no name heading.
+Existing essay and project URLs are preserved.
 
 ## Preview
 
@@ -16,15 +21,33 @@ There is no package installation or build step.
 
 ## Edit
 
-- `index.html`: writing and project tiles.
-- `collection.js`: accessible tab selection, keyboard navigation, and hash links.
+- `index.html`: all dated project, writing, and research tiles. No JavaScript is needed for the collection.
 - `styles.css`: responsive collection and essay typography.
 - `what-we-lose-in-the-pursuit-of-insight.html`: essay text and links.
 - `assets/`: writing and project thumbnails.
 - `projects/midterm-sentiment/`: standalone dashboard and saved weekly aggregates.
 
-The Projects collection is linked directly at `/#projects`. The previous
-`projects.html` URL redirects there. Writing and adventures redirects still work.
+The legacy `/#projects` and `/#writing` links now point to tiles in the same
+collection. The previous `projects.html` redirect and writing/adventures redirects
+still work.
+
+## Tile dates
+
+- Midterm Sentiment Analysis: August 10, 2026, the beginning of the saved X data
+  coverage (`weekly-results.json`, week-01). This date follows the owner’s
+  preference to use the start of the scraped data, rather than the app’s launch.
+- Writing: September 17, 2026, preserved from the existing essay metadata.
+- FedAwards: July 9, 2026, the original initial-deploy commit
+  (`6aa1accb42b28ee92d2132fecd2b3b1f1cf4f54e`).
+- Chronos: June 17, 2026, version 1.0 in the official App Store version history:
+  https://apps.apple.com/ca/app/chronos-history/id6780136606.
+- Research: April 18, 2019, the journal issue publication date for
+  “Unfolding Pathways of Hen Egg-White Lysozyme in Ethanol,”
+  https://doi.org/10.1021/acs.jpcb.9b01694.
+  The paper was published online separately; the tile uses the issue date.
+
+Dates use original project/research records, rather than the later date each
+project was imported into this personal-site repository.
 
 ## Midterm Sentiment Analysis
 

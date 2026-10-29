@@ -3,56 +3,68 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Writing on mathematics, technology, and discovery, alongside independent projects." />
-  <title>Writings</title>
+  <meta name="description" content="Projects, writing, and research." />
+  <title>Projects, writing, and research</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="collection.js" defer></script>
 </head>
-<body class="writings-page">
+<body class="collection-page">
   <a class="skip-link" href="#writings">Skip to content</a>
   <div class="site-shell">
-    <nav class="collection-navigation" aria-label="Collections">
-      <div class="collection-switcher" role="tablist" aria-label="Browse" data-active="writing">
-        <span class="collection-indicator" aria-hidden="true"></span>
-        <button class="collection-tab" id="writing-tab" type="button" role="tab" aria-selected="true" aria-controls="writing-panel" data-collection="writing">Writing</button>
-        <button class="collection-tab" id="projects-tab" type="button" role="tab" aria-selected="false" aria-controls="projects-panel" data-collection="projects" tabindex="-1">Projects</button>
-      </div>
-    </nav>
-    <main id="writings">
-      <h1 class="visually-hidden">Writing and projects</h1>
-      <section class="collection-panel" id="writing-panel" role="tabpanel" aria-labelledby="writing-tab">
-        <ul class="article-grid">
-          <li>
-            <a class="article-card writing-card" href="what-we-lose-in-the-pursuit-of-insight.html">
-              <img src="assets/mountain-sketch.png" width="1254" height="642" alt="" />
-              <h2>What we lose in the pursuit of insight</h2>
-              <time class="article-date" datetime="2026-09-17">Sep 17</time>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="collection-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" hidden>
-        <ul class="article-grid">
-          <li>
-            <a class="article-card project-card" href="/projects/midterm-sentiment/">
+    <h1 class="visually-hidden">Projects, writing, and research</h1>
+    <header class="collection-header">
+      <ul class="category-key" aria-label="Tile border colors">
+        <li class="project-key" id="project-category"><span aria-hidden="true"></span>Projects</li>
+        <li class="writing-key" id="writing-category"><span aria-hidden="true"></span>Writing</li>
+        <li class="research-key" id="research-category"><span aria-hidden="true"></span>Research</li>
+      </ul>
+    </header>
+    <main id="writings" aria-label="Projects, writing, and research">
+      <ul class="article-grid">
+        <li id="writing">
+          <a class="article-card writing-card" aria-describedby="writing-category" href="what-we-lose-in-the-pursuit-of-insight.html">
+            <img src="assets/mountain-sketch.png" width="1254" height="642" alt="" />
+            <div class="card-content"><h2>What we lose in the pursuit of insight</h2></div>
+            <div class="card-meta"><time datetime="2026-09-17">Sep 17, 2026</time></div>
+          </a>
+        </li>
+        <li id="projects">
+          <a class="article-card project-card" aria-describedby="project-category" href="/projects/midterm-sentiment/">
+            <div class="card-content">
               <h2>Midterm Sentiment Analysis</h2>
               <p>Tracking weekly sentiment toward candidates in six 2026 Senate races, using X posts classified by Jev</p>
-            </a>
-          </li>
-          <li>
-            <a class="article-card project-card" href="/projects/fedawards/">
+            </div>
+            <div class="card-meta"><time datetime="2026-08-10">Aug 10, 2026</time></div>
+          </a>
+        </li>
+        <li>
+          <a class="article-card project-card" aria-describedby="project-category" href="/projects/fedawards/">
+            <div class="card-content">
               <h2>FedAwards</h2>
               <p>Explore federal contract awards by recipient, with searchable records and charts</p>
-            </a>
-          </li>
-          <li>
-            <a class="article-card project-card" href="/projects/chronos/">
+            </div>
+            <div class="card-meta"><time datetime="2026-07-09">Jul 9, 2026</time></div>
+          </a>
+        </li>
+        <li>
+          <a class="article-card project-card" aria-describedby="project-category" href="/projects/chronos/">
+            <div class="card-content">
               <h2>Chronos</h2>
               <p>Discover events happening around the world at the same time</p>
-            </a>
-          </li>
-        </ul>
-      </section>
+            </div>
+            <div class="card-meta"><time datetime="2026-06-17">Jun 17, 2026</time></div>
+          </a>
+        </li>
+        <li id="research">
+          <a class="article-card research-card" aria-describedby="research-category" href="https://doi.org/10.1021/acs.jpcb.9b01694" rel="external">
+            <div class="card-content">
+              <h2>Unfolding Pathways of Hen Egg-White Lysozyme in Ethanol</h2>
+              <p>Molecular simulations of how pH and ethanol affect protein unfolding.</p>
+              <p class="card-source">The Journal of Physical Chemistry B</p>
+            </div>
+            <div class="card-meta"><time datetime="2019-04-18">Apr 18, 2019</time></div>
+          </a>
+        </li>
+      </ul>
     </main>
   </div>
 </body>
