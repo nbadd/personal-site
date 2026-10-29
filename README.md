@@ -2,7 +2,7 @@
 
 Nikhil Baddam's static website at https://nikhilbaddam.com/.
 The homepage shows every project, essay, and research paper in one dated collection.
-Vibrant blue borders identify projects, orange borders writing, and purple borders research.
+Bright green borders identify projects, bright orange borders writing, and bright purple borders research.
 A top legend identifies the border colors; tiles show dates without category labels.
 Compact 210px desktop tiles have rounded corners and use Arial on a white background;
 the homepage has no name heading. The writing tile leads with its title above its

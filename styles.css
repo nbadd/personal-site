@@ -54,9 +54,9 @@ h1 { margin: 0; font-family: var(--font); font-size: clamp(29px, 4.5vw, 44px); f
 
 /* One collection; category labels and borders identify each kind of work. */
 .collection-page {
-  --project-border: #2563eb;
-  --writing-border: #ea580c;
-  --research-border: #9333ea;
+  --project-border: #00c853;
+  --writing-border: #ff7900;
+  --research-border: #a020f0;
 }
 .collection-page .site-shell { width: calc(100% - 64px); min-height: 100svh; }
 .collection-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 28px 0 22px; }
@@ -81,7 +81,7 @@ h1 { margin: 0; font-family: var(--font); font-size: clamp(29px, 4.5vw, 44px); f
 .card-meta { display: flex; align-items: baseline; justify-content: flex-end; flex-wrap: wrap; gap: 8px 16px; margin-top: auto; padding: 14px 14px 12px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .card-meta time { white-space: nowrap; }
 .article-card:hover { background: #fafafa; }
-.article-card:focus-visible { outline: 2px solid var(--card-border); outline-offset: 4px; }
+.article-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .essay-header .article-date { display: block; margin-top: 14px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 
 /* Fade only the decorative image; keep all article text fully opaque. */
