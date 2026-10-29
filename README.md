@@ -35,7 +35,7 @@ still work.
 
 ## Tile dates
 
-- Midterm Sentiment Analysis: September 14, 2026, the date selected by the owner
+- Midterm Sentiment Analysis: October 7, 2026, the date selected by the owner
   for the project tile. The saved dataset begins earlier, on August 10, 2026.
 - Writing: September 17, 2026, preserved from the existing essay metadata.
 - FedAwards: July 9, 2026, the original initial-deploy commit
