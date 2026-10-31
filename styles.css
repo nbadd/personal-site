@@ -92,6 +92,16 @@ h1 { margin: 0; font-family: var(--font); font-size: clamp(29px, 4.5vw, 44px); f
   .collection-page .site-shell { width: calc(100% - 40px); }
   .collection-header { align-items: flex-start; flex-direction: column; gap: 14px; padding: 22px 0 18px; }
   .category-key { gap: 18px; }
+  /* Let tiles share the full screen width instead of stopping at 210px. */
+  .article-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .article-card { min-height: 150px; border-radius: 12px; }
+  .card-content { padding: 12px 12px 0; }
+  .card-meta { padding: 12px 12px 10px; }
+  .article-card img { width: calc(100% - 24px); height: auto; aspect-ratio: 182 / 64; margin: 10px 12px 0; }
+}
+/* Very narrow phones: one tile per row. */
+@media (max-width: 340px) {
+  .article-grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   .article-card { transition: none; }
