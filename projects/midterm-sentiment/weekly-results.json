@@ -64,6 +64,12 @@
       "start_at": "2026-10-12T00:00:00Z",
       "end_at": "2026-10-19T00:00:00Z",
       "label": "Oct 12–Oct 18, 2026"
+    },
+    {
+      "id": "week-11",
+      "start_at": "2026-10-19T00:00:00Z",
+      "end_at": "2026-10-26T00:00:00Z",
+      "label": "Oct 19–Oct 25, 2026"
     }
   ],
   "states": [
@@ -175,6 +181,16 @@
               "against_count": 113,
               "neutral_count": 36,
               "unclear_count": 156
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 338,
+              "for_count": 86,
+              "against_count": 129,
+              "neutral_count": 28,
+              "unclear_count": 95
             }
           ]
         },
@@ -282,6 +298,16 @@
               "against_count": 197,
               "neutral_count": 22,
               "unclear_count": 104
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 393,
+              "accepted": 336,
+              "for_count": 35,
+              "against_count": 201,
+              "neutral_count": 25,
+              "unclear_count": 75
             }
           ]
         }
@@ -395,6 +421,16 @@
               "against_count": 190,
               "neutral_count": 23,
               "unclear_count": 126
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 359,
+              "for_count": 45,
+              "against_count": 160,
+              "neutral_count": 12,
+              "unclear_count": 142
             }
           ]
         },
@@ -502,6 +538,16 @@
               "against_count": 223,
               "neutral_count": 32,
               "unclear_count": 93
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 390,
+              "accepted": 369,
+              "for_count": 41,
+              "against_count": 203,
+              "neutral_count": 36,
+              "unclear_count": 89
             }
           ]
         }
@@ -615,6 +661,16 @@
               "against_count": 210,
               "neutral_count": 17,
               "unclear_count": 97
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 392,
+              "accepted": 374,
+              "for_count": 53,
+              "against_count": 224,
+              "neutral_count": 18,
+              "unclear_count": 79
             }
           ]
         },
@@ -722,6 +778,16 @@
               "against_count": 133,
               "neutral_count": 12,
               "unclear_count": 139
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 387,
+              "accepted": 362,
+              "for_count": 75,
+              "against_count": 157,
+              "neutral_count": 16,
+              "unclear_count": 114
             }
           ]
         }
@@ -835,6 +901,16 @@
               "against_count": 224,
               "neutral_count": 15,
               "unclear_count": 60
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 396,
+              "accepted": 369,
+              "for_count": 45,
+              "against_count": 220,
+              "neutral_count": 17,
+              "unclear_count": 87
             }
           ]
         },
@@ -942,6 +1018,16 @@
               "against_count": 138,
               "neutral_count": 12,
               "unclear_count": 121
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 391,
+              "accepted": 343,
+              "for_count": 74,
+              "against_count": 117,
+              "neutral_count": 16,
+              "unclear_count": 136
             }
           ]
         }
@@ -1055,6 +1141,16 @@
               "against_count": 200,
               "neutral_count": 21,
               "unclear_count": 127
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 398,
+              "accepted": 366,
+              "for_count": 59,
+              "against_count": 169,
+              "neutral_count": 25,
+              "unclear_count": 113
             }
           ]
         },
@@ -1162,6 +1258,16 @@
               "against_count": 98,
               "neutral_count": 48,
               "unclear_count": 109
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 395,
+              "accepted": 329,
+              "for_count": 62,
+              "against_count": 104,
+              "neutral_count": 60,
+              "unclear_count": 103
             }
           ]
         }
@@ -1275,6 +1381,16 @@
               "against_count": 223,
               "neutral_count": 21,
               "unclear_count": 84
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 389,
+              "accepted": 366,
+              "for_count": 85,
+              "against_count": 163,
+              "neutral_count": 18,
+              "unclear_count": 100
             }
           ]
         },
@@ -1382,6 +1498,16 @@
               "against_count": 164,
               "neutral_count": 30,
               "unclear_count": 117
+            },
+            {
+              "week_id": "week-11",
+              "status": "complete",
+              "fetched": 394,
+              "accepted": 378,
+              "for_count": 80,
+              "against_count": 166,
+              "neutral_count": 28,
+              "unclear_count": 104
             }
           ]
         }
