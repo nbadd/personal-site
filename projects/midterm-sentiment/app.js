@@ -27,7 +27,7 @@
   const svgNode = (tag, attributes, text) => { const element = document.createElementNS(SVG, tag); Object.entries(attributes || {}).forEach(([key, value]) => element.setAttribute(key, String(value))); if (text !== undefined) element.textContent = text; return element; };
   const count = (value) => Number.isSafeInteger(value) && value >= 0 ? value : null;
   const number = (value) => count(value) === null ? "—" : value.toLocaleString("en-US");
-  const signed = (value) => { if (!Number.isFinite(value)) return "—"; const rounded = Math.round(value * 10) / 10; return `${rounded > 0 ? "+" : rounded < 0 ? "−" : ""}${Math.abs(rounded).toLocaleString("en-US", { maximumFractionDigits: 1 })}`; };
+  const signed = (value, minimumFractionDigits = 0) => { if (!Number.isFinite(value)) return "—"; const rounded = Math.round(value * 10) / 10; return `${rounded > 0 ? "+" : rounded < 0 ? "−" : ""}${Math.abs(rounded).toLocaleString("en-US", { minimumFractionDigits, maximumFractionDigits: 1 })}`; };
   const validDate = (value) => { if (typeof value !== "string" || !value) return null; const date = new Date(value); return Number.isFinite(date.getTime()) ? date : null; };
   const dateLabel = (value, options = {}) => { const date = validDate(value); return date ? date.toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", ...options }) : null; };
   const weeks = () => Array.isArray(state.data?.weeks) && state.data.weeks.length ? state.data.weeks : emptyWeeks;
@@ -158,7 +158,7 @@
       sample.title = "Posts kept after filtering, including unclear judgments.";
       sample.setAttribute("aria-label", `Sample size: ${point.available ? number(point.total) : "not available"}`);
       const header = node("div", "ms-candidate-header"); header.append(person, sample); card.append(header);
-      const scoreLine = node("div", "ms-scoreline"), score = node("div"), value = node("div", `ms-number${point.net === null ? " ms-number-pending" : ""}`, point.net !== null ? signed(point.net) : point.available ? "Not enough data" : "Not collected");
+      const scoreLine = node("div", "ms-scoreline"), score = node("div"), value = node("div", `ms-number${point.net === null ? " ms-number-pending" : ""}`, point.net !== null ? signed(point.net, 1) : point.available ? "Not enough data" : "Not collected");
       score.append(value, node("div", "ms-scorelabel", point.net !== null ? "Weekly net sentiment" : point.available ? `${threshold()} classified judgments required` : "No saved observation for this week")); scoreLine.append(score);
       const delta = node("div", "ms-change");
       if (point.net !== null && previous?.net !== null && previous?.net !== undefined && !point.partial && !previous.partial) delta.append(document.createTextNode(`${signed(point.net - previous.net)} points`), node("br"), document.createTextNode("vs. previous week"));
