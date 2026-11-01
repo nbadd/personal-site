@@ -120,10 +120,11 @@
     svg.append(svgNode("line", { x1: x(selectedIndex()), x2: x(selectedIndex()), y1: pad.top, y2: height - pad.bottom, class: "ms-week-guide" }));
     periods.forEach((week, i) => {
       if (width < 450 && ![0, Math.round((periods.length - 1) / 3), Math.round(2 * (periods.length - 1) / 3), periods.length - 1].includes(i)) return;
-      const label = dateLabel(week.start_at) || `W${i + 1}`;
+      const end = validDate(week.end_at);
+      const label = (end && dateLabel(new Date(end.getTime() - 1).toISOString())) || `W${i + 1}`;
       svg.append(svgNode("text", { x: x(i), y: height - 25, "text-anchor": "middle" }, label));
     });
-    svg.append(svgNode("text", { x: pad.left + plotWidth / 2, y: height - 4, "text-anchor": "middle", class: "ms-axis-label" }, "Week starting (UTC)"));
+    svg.append(svgNode("text", { x: pad.left + plotWidth / 2, y: height - 4, "text-anchor": "middle", class: "ms-axis-label" }, "Week ending (UTC)"));
     let visibleCount = 0;
     candidates.forEach((candidate, candidateIndex) => {
       const series = periods.map((week, i) => ({ ...cell(candidate, week), index: i, week }));
