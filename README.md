@@ -130,7 +130,7 @@ The Wind Tunnel tile opens `/projects/wind-tunnel/`, a photo and video collage o
 a cardboard wind tunnel from December 2017. Media lives in
 `projects/wind-tunnel/media/`: web-sized JPEGs and short muted H.264 loops
 (with poster frames) cut from the original iPhone photos and videos. The tile
-thumbnail is `assets/wind-tunnel.jpg`, a crop of the finished tunnel photo.
+thumbnail is `assets/wind-tunnel-tile.jpg`, a crop of the finished tunnel photo.
 
 ## Deploy on Netlify
 
