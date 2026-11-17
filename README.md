@@ -46,6 +46,7 @@ still work.
   “Unfolding Pathways of Hen Egg-White Lysozyme in Ethanol,”
   https://doi.org/10.1021/acs.jpcb.9b01694.
   The paper was published online separately; the tile uses the issue date.
+- Haptic Glove: 2018–2020, the span selected by the owner; sorted by its end year.
 - Wind Tunnel: December 2, 2017, the date selected by the owner.
 
 Dates use original project/research records, rather than the later date each
@@ -131,6 +132,15 @@ a cardboard wind tunnel from December 2017. Media lives in
 `projects/wind-tunnel/media/`: web-sized JPEGs and short muted H.264 loops
 (with poster frames) cut from the original iPhone photos and videos. The tile
 thumbnail is `assets/wind-tunnel-tile.jpg`, a crop of the finished tunnel photo.
+
+## Haptic Glove
+
+The Haptic Glove tile opens `/projects/haptic-glove/`, a photo and video collage
+of the 2018–2020 glove, which moved from magnetorheological fluids to an
+electrorheological design with thin wire electrodes. Media lives in
+`projects/haptic-glove/media/`, cut from the original iPhone photos and videos
+the same way as the Wind Tunnel page. The tile thumbnail is
+`assets/haptic-glove-tile.jpg`, a crop of the finished glove photo.
 
 ## Deploy on Netlify
 

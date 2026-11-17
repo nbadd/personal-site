@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A haptic glove built with magnetorheological, then electrorheological, fluids, 2018–2020." />
+  <title>Haptic Glove</title>
+  <link rel="stylesheet" href="/styles.css?v=20261031" />
+  <style>
+    .hg-shell { width: min(100% - 64px, 960px); margin: 0 auto; padding-bottom: 56px; }
+    .hg-shell .essay-header { padding-bottom: 24px; }
+    .hg-intro { max-width: 620px; margin: 18px 0 0; color: var(--ink); font-size: 15px; line-height: 1.65; }
+    .hg-collage { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; }
+    .hg-collage figure { position: relative; margin: 0; overflow: hidden; border-radius: 10px; background: #111; }
+    .hg-collage img, .hg-collage video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .hg-collage figcaption { position: absolute; left: 8px; bottom: 8px; padding: 3px 8px; border-radius: 4px; background: rgba(0, 0, 0, .55); color: #fff; font-size: 11.5px; line-height: 1.4; }
+    .hg-half { grid-column: span 3; aspect-ratio: 3 / 4; }
+    .hg-wide { grid-column: span 4; aspect-ratio: 16 / 9; }
+    .hg-side { grid-column: span 2; aspect-ratio: 8 / 9; }
+    .hg-portrait { grid-column: span 2; aspect-ratio: 9 / 16; }
+    .hg-square { grid-column: span 2; aspect-ratio: 1 / 1; }
+    @media (max-width: 600px) {
+      .hg-shell { width: calc(100% - 32px); }
+      .hg-collage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .hg-half, .hg-side, .hg-portrait, .hg-square { grid-column: span 1; aspect-ratio: 3 / 4; }
+      .hg-wide { grid-column: 1 / -1; }
+      .hg-collage figure:last-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hg-shell">
+    <header class="essay-header">
+      <a class="back-link" href="/">← All work</a>
+      <h1>Haptic Glove</h1>
+      <span class="article-date">2018–2020</span>
+      <p class="hg-intro">We started with magnetorheological fluids, then switched to a design using electrorheological fluid, with thin wiring running through it as an electrode to solidify the fluid.</p>
+    </header>
+    <main class="hg-collage">
+      <figure class="hg-half">
+        <img src="media/glove.jpg" width="900" height="1200" alt="A black glove with a gold electrorheological actuator taped along each finger, wired back to the wrist" />
+        <figcaption>Glove</figcaption>
+      </figure>
+      <figure class="hg-half">
+        <img src="media/vr-test.jpg" width="900" height="1200" alt="Wearing the glove with a VR headset" />
+        <figcaption>VR test</figcaption>
+      </figure>
+      <figure class="hg-wide">
+        <video src="media/coil-test.mp4" poster="media/coil-test.jpg" autoplay muted loop playsinline preload="metadata" aria-label="An early magnetorheological prototype: a wire coil around a tube of fluid, lifted out of a cup"></video>
+        <figcaption>Magnetorheological prototype</figcaption>
+      </figure>
+      <figure class="hg-side">
+        <img src="media/coil.jpg" width="900" height="1200" alt="A tube wrapped in a copper wire coil, held in a clamp in front of a bench power supply" loading="lazy" />
+        <figcaption>Electromagnet coil</figcaption>
+      </figure>
+      <figure class="hg-portrait">
+        <video src="media/pour.mp4" poster="media/pour.jpg" autoplay muted loop playsinline preload="metadata" aria-label="White fluid poured between two foil-wrapped electrodes"></video>
+        <figcaption>Fluid test</figcaption>
+      </figure>
+      <figure class="hg-portrait">
+        <video src="media/finger-test.mp4" poster="media/finger-test.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A gloved finger in a taped actuator sleeve, wired to alligator clips, bending"></video>
+        <figcaption>Finger actuator</figcaption>
+      </figure>
+      <figure class="hg-portrait">
+        <video src="media/glove-motion.mp4" poster="media/glove-motion.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A hand in the wired glove opening and closing"></video>
+        <figcaption>Glove in motion</figcaption>
+      </figure>
+      <figure class="hg-square">
+        <img src="media/finger-cuff.jpg" width="900" height="1200" alt="A taped cuff with wire leads on a fingertip" loading="lazy" />
+        <figcaption>Finger cuff</figcaption>
+      </figure>
+      <figure class="hg-square">
+        <img src="media/plaster-hand.jpg" width="900" height="1200" alt="Prototype cuffs on the fingers of a plaster hand" loading="lazy" />
+        <figcaption>Plaster hand</figcaption>
+      </figure>
+      <figure class="hg-square">
+        <img src="media/electrode-strip.jpg" width="900" height="1200" alt="A clear strip with fine wire running through it as an electrode" loading="lazy" />
+        <figcaption>Wire electrode</figcaption>
+      </figure>
+    </main>
+  </div>
+</body>
+</html>
