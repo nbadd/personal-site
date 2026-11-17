@@ -46,6 +46,7 @@ still work.
   “Unfolding Pathways of Hen Egg-White Lysozyme in Ethanol,”
   https://doi.org/10.1021/acs.jpcb.9b01694.
   The paper was published online separately; the tile uses the issue date.
+- Wind Tunnel: December 2, 2017, the date selected by the owner.
 
 Dates use original project/research records, rather than the later date each
 project was imported into this personal-site repository.
@@ -122,6 +123,14 @@ The exporter requires saved Origins for every event, disables environment-file
 loading and client variable inlining, checks the output, and copies an explicit
 asset bundle. Review and commit the output here, then push `main` to deploy.
 Do not copy `.env`, source files, local generation ledgers, or native build files.
+
+## Wind Tunnel
+
+The Wind Tunnel tile opens `/projects/wind-tunnel/`, a photo and video collage of
+a cardboard wind tunnel from December 2017. Media lives in
+`projects/wind-tunnel/media/`: web-sized JPEGs and short muted H.264 loops
+(with poster frames) cut from the original iPhone photos and videos. The tile
+thumbnail is `assets/wind-tunnel.jpg`, a three-panel strip from the same media.
 
 ## Deploy on Netlify
 
