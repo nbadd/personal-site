@@ -14,17 +14,13 @@
     .wt-collage img, .wt-collage video { display: block; width: 100%; height: 100%; object-fit: cover; }
     .wt-collage figcaption { position: absolute; left: 8px; bottom: 8px; padding: 3px 8px; border-radius: 4px; background: rgba(0, 0, 0, .55); color: #fff; font-size: 11.5px; line-height: 1.4; }
     .wt-hero { grid-column: 1 / -1; aspect-ratio: 2576 / 871; }
-    .wt-tall { grid-column: span 2; grid-row: span 2; }
-    .wt-wide { grid-column: span 4; aspect-ratio: 16 / 9; }
-    .wt-half { grid-column: span 3; aspect-ratio: 4 / 3; }
-    .wt-third { grid-column: span 2; aspect-ratio: 3 / 4; }
+    .wt-portrait { grid-column: span 2; aspect-ratio: 9 / 16; }
+    .wt-square { grid-column: span 2; aspect-ratio: 1 / 1; }
     @media (max-width: 600px) {
       .wt-shell { width: calc(100% - 32px); }
       .wt-collage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .wt-hero, .wt-wide, .wt-half { grid-column: 1 / -1; }
-      .wt-tall { grid-column: span 1; grid-row: span 2; }
-      .wt-third { grid-column: span 1; }
-      .wt-third:last-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+      .wt-portrait, .wt-square { grid-column: span 1; }
+      .wt-honeycomb { aspect-ratio: 1 / 1; }
     }
   </style>
 </head>
@@ -39,27 +35,26 @@
       <figure class="wt-hero">
         <img src="media/tunnel.jpg" width="1600" height="541" alt="A long cardboard wind tunnel wrapped in holiday paper and string lights, with a viewing window in its test section" />
       </figure>
-      <figure class="wt-tall">
+      <figure class="wt-portrait">
         <video src="media/anemometer.mp4" poster="media/anemometer.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A cup anemometer spinning in the test section"></video>
         <figcaption>Cup anemometer</figcaption>
       </figure>
-      <figure class="wt-wide">
-        <video src="media/smoke.mp4" poster="media/smoke.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Smoke streaming past a block in the test section"></video>
+      <figure class="wt-portrait">
+        <video src="media/smoke.mp4" poster="media/smoke.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Smoke drifting across the test section window"></video>
         <figcaption>Smoke flow</figcaption>
       </figure>
-      <figure class="wt-wide">
-        <video src="media/deflection.mp4" poster="media/deflection.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A strip mounted in the test section bending in the airflow"></video>
-        <figcaption>Deflection test</figcaption>
-      </figure>
-      <figure class="wt-third">
-        <img src="media/fan.jpg" width="900" height="937" alt="The box fan mounted in a cardboard frame" loading="lazy" />
-        <figcaption>Fan</figcaption>
-      </figure>
-      <figure class="wt-third">
+      <figure class="wt-portrait wt-honeycomb">
         <img src="media/inside.jpg" width="900" height="1200" alt="View down the inside of the tunnel toward a honeycomb of tubes" loading="lazy" />
         <figcaption>Honeycomb</figcaption>
       </figure>
-      <figure class="wt-third">
+      <figure class="wt-square">
+        <img src="media/fan.jpg" width="900" height="937" alt="The box fan mounted in a cardboard frame" loading="lazy" />
+        <figcaption>Fan</figcaption>
+      </figure>
+      <figure class="wt-square">
+        <video src="media/deflection.mp4" poster="media/deflection.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A ruler mounted across the test section window, with a strip below it moving in the airflow"></video>
+      </figure>
+      <figure class="wt-square">
         <img src="media/contraction.jpg" width="900" height="1200" alt="The contraction section being taped together" loading="lazy" />
         <figcaption>Build</figcaption>
       </figure>
