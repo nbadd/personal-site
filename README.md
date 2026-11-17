@@ -142,9 +142,12 @@ electrorheological design with thin wire electrodes. Media lives in
 the same way as the Wind Tunnel page. The tile thumbnail is
 `assets/haptic-glove-tile.jpg`, a crop of the finished glove photo.
 
-## Deploy on Netlify
+## Deploy on GitHub Pages
 
-This site uses Netlify with the repository root as its publish directory and an
-empty build command, configured in `netlify.toml`. The production branch is
-`main`; the existing GitHub integration deploys pushes automatically. Keep the
-custom domain `nikhilbaddam.com` attached to this same Netlify site.
+This site is served by GitHub Pages straight from the repository root of the
+`main` branch, with no build step. Every push to `main` deploys automatically,
+usually within a minute. `CNAME` sets the custom domain `nikhilbaddam.com`, and
+`.nojekyll` makes Pages serve the files as-is instead of running Jekyll.
+
+GitHub Pages lets browsers cache pages for up to 10 minutes, so a just-deployed
+change may need a hard refresh to appear.
