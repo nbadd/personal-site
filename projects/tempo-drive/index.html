@@ -66,10 +66,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .skip{appearance:none;border:2px solid var(--line);border-radius:18px;padding:0 18px;background:var(--panel);color:var(--fg);
   font:700 18px/1.1 var(--display);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .skip:disabled{opacity:.4;cursor:default}
-.go:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,label.small:focus-within{outline:3px solid var(--accent-2);outline-offset:2px}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
-.seg button{appearance:none;border:0;border-radius:9px;padding:11px 8px;background:transparent;color:var(--muted);font:600 14px var(--body);cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--bg);color:var(--fg)}
+.go:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
 .msg{font-size:13px;color:var(--warn)}
 
 details{background:var(--panel);border:1px solid var(--line);border-radius:14px}
@@ -84,10 +81,6 @@ summary::after{content:"+";color:var(--muted)} details[open] summary::after{cont
 .test input[type=range]{width:100%;accent-color:var(--accent)}
 .check{display:flex;align-items:center;gap:10px;color:var(--fg);font-size:14px}
 .check input{width:20px;height:20px;accent-color:var(--accent)}
-.lib{display:grid;gap:8px;font-size:13px;color:var(--muted)}
-.lib ul{margin:0;padding-left:18px;max-height:140px;overflow:auto}
-.btnrow{display:flex;flex-wrap:wrap;gap:8px}
-.small{appearance:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:9px;padding:9px 12px;font:600 13px var(--body);cursor:pointer}
 .foot{font-size:12px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:reduce){.fill,.beats b{transition:none}}
 </style>
@@ -116,10 +109,6 @@ summary::after{content:"+";color:var(--muted)} details[open] summary::after{cont
   </section>
 
   <section class="controls">
-    <div class="seg" role="group" aria-label="Music source">
-      <button id="modeGroove" aria-pressed="true">Pop radio</button>
-      <button id="modeLoops" aria-pressed="false">AI loops</button>
-    </div>
     <div class="msg" id="msg" hidden></div>
     <div class="gorow">
       <button class="go" id="go">Start</button>
@@ -127,7 +116,7 @@ summary::after{content:"+";color:var(--muted)} details[open] summary::after{cont
     </div>
 
     <details>
-      <summary>Settings &amp; loops</summary>
+      <summary>Settings</summary>
       <div class="settings">
         <div class="row"><label for="minBpm">Tempo when stopped (BPM)</label><input id="minBpm" type="number" min="50" max="200" step="1"></div>
         <div class="row"><label for="maxBpm">Tempo at top speed (BPM)</label><input id="maxBpm" type="number" min="60" max="220" step="1"></div>
@@ -145,17 +134,6 @@ summary::after{content:"+";color:var(--muted)} details[open] summary::after{cont
           </div>
         </div>
 
-        <div class="lib">
-          <div><strong style="color:var(--fg)" id="libCount">0 loops</strong> for AI loops mode. Loops in the <code>loops/</code> folder load automatically; files added here stay on this phone.</div>
-          <ul id="libList"></ul>
-          <div class="row"><label for="repeats">Plays per loop before switching</label><input id="repeats" type="number" min="1" max="8" step="1"></div>
-          <div class="row"><label for="baseBpm">BPM for added files without “120bpm” in the name</label><input id="baseBpm" type="number" min="50" max="200" step="1"></div>
-          <div class="btnrow">
-            <label class="small" for="fileIn">Add loops from Files</label>
-            <input id="fileIn" type="file" accept="audio/*" multiple hidden>
-            <button class="small" id="clearLib">Remove added loops</button>
-          </div>
-        </div>
       </div>
     </details>
     <div class="foot">Set it up before you drive. Keep this screen open and the phone plugged in.</div>
@@ -169,14 +147,14 @@ const $ = s => document.querySelector(s);
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 
 /* ---------- settings ---------- */
-const DEF = {minBpm:84, maxBpm:145, topMph:75, response:'normal', energy:'on', baseBpm:120, repeats:2};
+const DEF = {minBpm:84, maxBpm:145, topMph:75, response:'normal', energy:'on'};
 const KEY = 'td-settings-v2';
 const S = Object.assign({}, DEF);
 try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 const TAU = {gentle:6, normal:3, quick:1.2};
 
-const st = {playing:false, mode:'groove', rawMph:0, smoothMph:0, bpm:S.minBpm, energy:0,
+const st = {playing:false, rawMph:0, smoothMph:0, bpm:S.minBpm, energy:0,
   test:false, simMph:0, gps:'off', acc:null, lastFix:0, now:'Nothing yet', sub:''};
 
 /* ---------- audio core: master bus with reverb and tempo-synced delay ---------- */
@@ -464,113 +442,6 @@ function startGroove() {
 }
 function stopGroove() { clearInterval(grooveTimer); grooveTimer = null; beatQueue.length = 0; if (stepInBar) { stepInBar = 0; barIdx++; } }
 
-/* ---------- AI loop player (pitch-preserving tempo stretch) ---------- */
-let builtClips = [], userClips = [];
-const allClips = () => builtClips.concat(userClips);
-const decks = [0, 1].map(() => {
-  const el = new Audio(); el.preload = 'auto'; el.setAttribute('playsinline', '');
-  try { el.preservesPitch = true; el.webkitPreservesPitch = true; } catch (e) {}
-  return {el, node:null, gain:null, clip:null};
-});
-function wire(d) { if (!d.node) { d.node = ctx.createMediaElementSource(d.el); d.gain = ctx.createGain(); d.node.connect(d.gain); d.gain.connect(out); } }
-const rateFor = clip => clamp(st.bpm / clip.bpm, 0.5, 2);
-let cur = 0, plays = 0, order = [], oi = 0, prepped = false, nextSame = false, loopTimer = null;
-function shuffle() {
-  const n = allClips().length, last = order[oi];
-  order = [...Array(n).keys()];
-  for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-  if (n > 1 && order[0] === last) [order[0], order[1]] = [order[1], order[0]];
-  oi = 0;
-}
-function advance() { oi++; if (oi >= order.length) shuffle(); return allClips()[order[oi]]; }
-function load(d, clip) { d.clip = clip; if (d.el.dataset.url !== clip.url) { d.el.src = clip.url; d.el.dataset.url = clip.url; } }
-async function startLoops() {
-  ensureCtx(); decks.forEach(wire);
-  shuffle(); oi = -1; const clip = advance();
-  cur = 0; plays = 1; prepped = false;
-  const d = decks[0]; load(d, clip);
-  d.gain.gain.cancelScheduledValues(ctx.currentTime); d.gain.gain.setValueAtTime(1, ctx.currentTime);
-  decks[1].gain.gain.setValueAtTime(0, ctx.currentTime);
-  d.el.currentTime = 0; d.el.playbackRate = rateFor(clip);
-  try { await d.el.play(); } catch (e) { showMsg('Could not play “' + clip.name + '”. Check the file format.'); }
-  loopTimer = setInterval(loopTick, 30);
-}
-function swap() {
-  const d = decks[cur], n = decks[1 - cur], t = ctx.currentTime;
-  n.el.currentTime = 0; n.el.playbackRate = rateFor(n.clip);
-  n.gain.gain.cancelScheduledValues(t); n.gain.gain.setValueAtTime(0.0001, t); n.gain.gain.linearRampToValueAtTime(1, t + 0.05);
-  d.gain.gain.cancelScheduledValues(t); d.gain.gain.setValueAtTime(1, t); d.gain.gain.linearRampToValueAtTime(0.0001, t + 0.08);
-  n.el.play().catch(() => {});
-  const old = d.el; setTimeout(() => { if (old !== decks[cur].el) old.pause(); }, 200);
-  cur = 1 - cur; plays = nextSame ? plays + 1 : 1; prepped = false;
-}
-function loopTick() {
-  const d = decks[cur]; if (!d.clip) return;
-  const r = rateFor(d.clip);
-  if (Math.abs(d.el.playbackRate - r) > 0.004) d.el.playbackRate = r;
-  st.now = d.clip.name; st.sub = 'AI loop · ' + Math.round(d.clip.bpm) + ' BPM original' + (plays > 1 ? ' · repeat ' + plays : '');
-  if (!d.el.duration || !isFinite(d.el.duration)) return;
-  const rem = (d.el.duration - d.el.currentTime) / d.el.playbackRate;
-  if (!prepped && rem < 4) {
-    const c = plays < S.repeats ? d.clip : advance();
-    nextSame = c === d.clip; load(decks[1 - cur], c); prepped = true;
-  }
-  if ((prepped && rem < 0.07) || d.el.ended) { if (!prepped) { load(decks[1 - cur], advance()); nextSame = false; } swap(); }
-}
-function stopLoops() {
-  clearInterval(loopTimer); loopTimer = null;
-  decks.forEach(d => { d.el.pause(); if (d.gain && ctx) d.gain.gain.setValueAtTime(0, ctx.currentTime); });
-}
-
-/* ---------- loop library ---------- */
-const bpmFromName = name => { const m = /(\d{2,3}(?:\.\d+)?)\s*-?\s*bpm/i.exec(name); return m ? +m[1] : null; };
-async function loadManifest() {
-  try {
-    const r = await fetch('loops/loops.json', {cache:'no-cache'});
-    if (!r.ok) return;
-    const j = await r.json();
-    builtClips = (j.clips || []).map(c => ({name:c.title || c.file, url:'loops/' + c.file, bpm:+c.bpm || S.baseBpm, source:'folder'}));
-  } catch (e) {}
-}
-function idb() {
-  return new Promise((res, rej) => {
-    const r = indexedDB.open('tempo-drive', 1);
-    r.onupgradeneeded = () => r.result.createObjectStore('clips', {keyPath:'name'});
-    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
-  });
-}
-function idbDo(mode, fn) {
-  return idb().then(db => new Promise((res, rej) => {
-    const tx = db.transaction('clips', mode), q = fn(tx.objectStore('clips'));
-    tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error);
-  }));
-}
-async function loadUserClips() {
-  try {
-    userClips.forEach(c => URL.revokeObjectURL(c.url));
-    const recs = await idbDo('readonly', s => s.getAll()) || [];
-    userClips = recs.map(r => ({name:r.name, url:URL.createObjectURL(r.blob), bpm:r.bpm, source:'phone'}));
-  } catch (e) { userClips = []; }
-}
-$('#fileIn').addEventListener('change', async e => {
-  const files = [...e.target.files]; e.target.value = '';
-  try {
-    await idbDo('readwrite', s => { files.forEach(f => s.put({name:f.name.replace(/\.[^.]+$/, ''), bpm:bpmFromName(f.name) || S.baseBpm, blob:f})); });
-    await loadUserClips(); renderLib(); hideMsg();
-  } catch (err) { showMsg('Could not save those files on this phone.'); }
-});
-$('#clearLib').addEventListener('click', async () => {
-  try { await idbDo('readwrite', s => s.clear()); } catch (e) {}
-  await loadUserClips(); renderLib();
-  if (!allClips().length && st.mode === 'loops' && !st.playing) setMode('groove');
-});
-function renderLib() {
-  const all = allClips();
-  $('#libCount').textContent = all.length + (all.length === 1 ? ' loop' : ' loops');
-  const ul = $('#libList'); ul.textContent = '';
-  all.forEach(c => { const li = document.createElement('li'); li.textContent = c.name + ' · ' + Math.round(c.bpm) + ' BPM · ' + (c.source === 'folder' ? 'loops folder' : 'this phone'); ul.appendChild(li); });
-}
-
 /* ---------- GPS speed ---------- */
 let watchId = null, lastPos = null;
 function hav(a, b) {
@@ -620,22 +491,8 @@ document.addEventListener('visibilitychange', () => {
 /* ---------- controls ---------- */
 const showMsg = t => { const m = $('#msg'); m.textContent = t; m.hidden = false; };
 const hideMsg = () => { $('#msg').hidden = true; };
-function setMode(m) {
-  if (m === 'loops' && !allClips().length) {
-    showMsg('No loops found. Put the loops folder next to this page, or add files under Settings.');
-    m = 'groove';
-  } else hideMsg();
-  const wasPlaying = st.playing;
-  if (wasPlaying) stopAudio();
-  st.mode = m;
-  $('#modeLoops').setAttribute('aria-pressed', m === 'loops');
-  $('#modeGroove').setAttribute('aria-pressed', m === 'groove');
-  if (wasPlaying) startAudio();
-}
-function startAudio() { st.mode === 'loops' ? startLoops() : startGroove(); }
-function stopAudio() { stopGroove(); stopLoops(); }
-$('#modeLoops').addEventListener('click', () => setMode('loops'));
-$('#modeGroove').addEventListener('click', () => setMode('groove'));
+function startAudio() { startGroove(); }
+function stopAudio() { stopGroove(); }
 $('#go').addEventListener('click', () => {
   if (!st.playing) {
     ensureCtx(); st.playing = true;
@@ -646,10 +503,7 @@ $('#go').addEventListener('click', () => {
     if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
   }
 });
-$('#skip').addEventListener('click', () => {
-  if (st.mode === 'groove') skipFlag = true;
-  else if (loopTimer) { prepped = false; plays = S.repeats; const n = decks[1 - cur]; load(n, advance()); nextSame = false; swap(); }
-});
+$('#skip').addEventListener('click', () => { skipFlag = true; });
 
 function bindNum(id, key, lo, hi) {
   const el = $('#' + id); el.value = S[key];
@@ -661,7 +515,7 @@ function bindNum(id, key, lo, hi) {
   });
 }
 bindNum('minBpm', 'minBpm', 50, 200); bindNum('maxBpm', 'maxBpm', 60, 220);
-bindNum('topMph', 'topMph', 10, 120); bindNum('repeats', 'repeats', 1, 8); bindNum('baseBpm', 'baseBpm', 50, 200);
+bindNum('topMph', 'topMph', 10, 120);
 ['response', 'energy'].forEach(id => { const el = $('#' + id); el.value = S[id]; el.addEventListener('change', () => { S[id] = el.value; save(); }); });
 $('#testMode').addEventListener('change', e => {
   st.test = e.target.checked; $('#simWrap').hidden = !st.test;
@@ -699,17 +553,12 @@ function frame() {
 
   let beat = -1;
   if (st.playing && ctx) {
-    if (st.mode === 'groove') {
-      const now = ctx.currentTime;
-      while (beatQueue.length && beatQueue[0].t <= now) {
-        const e = beatQueue.shift();
-        if (e.info) { st.now = e.info.now; st.sub = e.info.sub; } else { litBeat = e.n; litAt = e.t; }
-      }
-      if (litBeat >= 0 && now - litAt < 60 / st.bpm * 0.45) beat = litBeat;
-    } else {
-      const d = decks[cur];
-      if (d.clip && !d.el.paused) { const ph = d.el.currentTime * d.clip.bpm / 60; if (ph % 1 < 0.45) beat = Math.floor(ph) % 4; }
+    const now = ctx.currentTime;
+    while (beatQueue.length && beatQueue[0].t <= now) {
+      const e = beatQueue.shift();
+      if (e.info) { st.now = e.info.now; st.sub = e.info.sub; } else { litBeat = e.n; litAt = e.t; }
     }
+    if (litBeat >= 0 && now - litAt < 60 / st.bpm * 0.45) beat = litBeat;
   }
   $('#now').textContent = st.playing ? st.now : (st.now === 'Nothing yet' ? 'Nothing yet' : 'Paused');
   $('#nowSub').textContent = st.playing ? st.sub : '';
@@ -718,7 +567,6 @@ function frame() {
 }
 
 /* ---------- boot ---------- */
-(async () => { await Promise.all([loadManifest(), loadUserClips()]); renderLib(); })();
 requestAnimationFrame(frame);
 })();
 </script>
