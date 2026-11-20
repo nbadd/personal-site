@@ -126,11 +126,12 @@ const st = {playing:false, rawMph:0, smoothMph:0, bpm:S.minBpm, energy:0,
   test:false, simMph:0, gps:'off', acc:null, lastFix:0};
 
 /* ---------- audio core ----------
+   everything below ends in a track fader (for fading between tracks) before the master
    drums ─────────────────────────────────────────────┐
    pads, chords, bass → musicIn → filter → pump (sidechain) → out → compressor → speakers
    lead and plucks ────────────────────────────────────┘ (with reverb and tempo-synced delay sends) */
 let ctx = null, out = null, noiseBuf = null, revIn = null, dlyIn = null, delay = null;
-let musicIn = null, sweep = null, pump = null;
+let musicIn = null, sweep = null, pump = null, fader = null;
 function impulse(sec, decay) {
   const len = Math.floor(ctx.sampleRate * sec), b = ctx.createBuffer(2, len, ctx.sampleRate);
   for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay); }
@@ -144,17 +145,18 @@ function ensureCtx() {
     comp.threshold.value = -14; comp.ratio.value = 4; comp.attack.value = 0.005; comp.release.value = 0.15;
     const master = ctx.createGain(); master.gain.value = 0.8;
     master.connect(comp); comp.connect(ctx.destination);
-    out = ctx.createGain(); out.connect(master);
+    fader = ctx.createGain(); fader.connect(master);
+    out = ctx.createGain(); out.connect(fader);
     noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
     const conv = ctx.createConvolver(); conv.buffer = impulse(2.8, 3);
     revIn = ctx.createGain(); const revOut = ctx.createGain(); revOut.gain.value = 0.4;
-    revIn.connect(conv); conv.connect(revOut); revOut.connect(master);
+    revIn.connect(conv); conv.connect(revOut); revOut.connect(fader);
     dlyIn = ctx.createGain(); delay = ctx.createDelay(2); delay.delayTime.value = 0.375;
     const fb = ctx.createGain(); fb.gain.value = 0.3;
     const dlp = ctx.createBiquadFilter(); dlp.type = 'lowpass'; dlp.frequency.value = 3500;
     const dOut = ctx.createGain(); dOut.gain.value = 0.25;
-    dlyIn.connect(delay); delay.connect(dlp); dlp.connect(fb); fb.connect(delay); dlp.connect(dOut); dOut.connect(master);
+    dlyIn.connect(delay); delay.connect(dlp); dlp.connect(fb); fb.connect(delay); dlp.connect(dOut); dOut.connect(fader);
     musicIn = ctx.createGain();
     sweep = ctx.createBiquadFilter(); sweep.type = 'lowpass'; sweep.Q.value = 0.7; sweep.frequency.value = 3000;
     pump = ctx.createGain();
@@ -195,6 +197,10 @@ const P = {
   lead:  {waves:[['sawtooth',-12],['sawtooth',0],['sawtooth',12],['square',0,-1]], cut:5000, fenv:1.4, fdec:0.08, a:0.005, d:0.2, s:0.75, r:0.1, vol:0.045, rev:0.25, dly:0.22},
   pluck: {waves:[['sawtooth',-8],['sawtooth',8],['triangle',0,1]], cut:3200, fenv:2, fdec:0.06, a:0.002, d:0.22, s:0, r:0.15, vol:0.055, rev:0.35, dly:0.28},
   arp:   {waves:[['sawtooth',-6],['sawtooth',6]], cut:2600, fenv:1.8, fdec:0.04, a:0.002, d:0.12, s:0, r:0.08, vol:0.03, rev:0.25, dly:0.25},
+  piano: {waves:[['triangle',0],['sine',0,1],['sawtooth',4]], cut:3000, fenv:1.5, fdec:0.15, a:0.002, d:0.6, s:0.12, r:0.3, vol:0.045},
+  mute:  {waves:[['sine',0],['triangle',0,1]], cut:2200, fenv:2, fdec:0.03, a:0.002, d:0.09, s:0, r:0.06, vol:0.06},
+  flute: {waves:[['sine',0],['triangle',3,1],['sine',-5]], cut:4000, a:0.03, d:0.3, s:0.8, r:0.15, vol:0.07, rev:0.35, dly:0.3},
+  square:{waves:[['square',-6],['square',6]], cut:3500, fenv:1.3, fdec:0.06, a:0.004, d:0.15, s:0.6, r:0.08, vol:0.04, rev:0.2, dly:0.25},
   bass:  {waves:[['sawtooth',0],['sine',0,-1]], cut:450, fenv:1.8, fdec:0.05, q:1.2, a:0.004, d:0.15, s:0.7, r:0.05, vol:0.24},
 };
 function kick(t) {
@@ -240,8 +246,7 @@ function duck(t, spb, depth) { // sidechain pump on the music bus
   pump.gain.setTargetAtTime(1, t + 0.01, spb * 0.8);
 }
 
-/* ---------- the endless mix ---------- */
-const clampI = (x, a, b) => Math.min(b, Math.max(a, x));
+/* ---------- the endless mix: a new track every few minutes ---------- */
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 const MINOR = [0,2,3,5,7,8,10];
 // four-chord loops in a minor key: [semitones above the key, minor or major triad]
@@ -251,22 +256,30 @@ const PROGS = [
   [[0,'m'],[10,'M'],[8,'M'],[10,'M']],
   [[5,'m'],[8,'M'],[0,'m'],[10,'M']],
   [[8,'M'],[3,'M'],[10,'M'],[0,'m']],
+  [[0,'m'],[5,'m'],[8,'M'],[7,'M']],
+  [[3,'M'],[10,'M'],[0,'m'],[8,'M']],
 ];
-const RHY = [ // lead rhythms, [step, length] in 16ths over two bars
+const RHY = [ // hook rhythms, [step, length] in 16ths over two bars
   [[0,3],[3,3],[6,2],[8,4],[14,2],[16,3],[19,3],[22,2],[24,6]],
   [[0,2],[2,2],[4,4],[10,2],[12,4],[16,2],[18,2],[20,6],[28,2],[30,2]],
   [[0,3],[3,3],[6,3],[9,3],[12,4],[16,3],[19,3],[22,3],[25,3],[28,4]],
   [[0,2],[3,2],[6,2],[8,2],[10,4],[16,2],[19,2],[22,2],[24,8]],
   [[2,2],[4,2],[6,2],[8,6],[18,2],[20,2],[22,2],[24,4],[28,4]],
+  [[0,4],[4,2],[6,2],[8,4],[12,4],[16,4],[20,2],[22,2],[24,8]],
 ];
-// one cycle is 40 bars; it repeats forever with new chords and melodies
-const PHASES = [['Groove',8],['Breakdown',8],['Build',8],['Drop',16]];
-const CYCLE = PHASES.reduce((a, p) => a + p[1], 0);
-function phaseOf(pos) { let acc = 0; for (const [name, len] of PHASES) { if (pos < acc + len) return {name, bi:pos - acc, len}; acc += len; } }
+// each track picks one of these productions
+const STYLES = {
+  bigroom:  {chord:'saws',  pat:'sustain',  lead:'lead',   soft:'pluck', bass:'offbeat', arp:'groove', hit:'clap',  pump:0.75},
+  piano:    {chord:'piano', pat:'stabs',    lead:'pluck',  soft:'piano', bass:'octaves', arp:null,     hit:'clap',  pump:0.45, shaker:true},
+  tropical: {chord:'mute',  pat:'tropical', lead:'flute',  soft:'flute', bass:'dotted',  arp:null,     hit:'snare', pump:0.55, shaker:true},
+  trance:   {chord:'pad',   pat:'sustain',  lead:'lead',   soft:'pluck', bass:'rolling', arp:'always', hit:'clap',  pump:0.55, hats16:true},
+  electro:  {chord:'saws',  pat:'offbeat',  lead:'square', soft:'square',bass:'offbeat', arp:'drop',   hit:'clap',  pump:0.7},
+};
+const CHORD_PATS = {stabs:[[0,2],[3,2],[6,2],[10,2],[12,3]], tropical:[[0,1],[3,1],[6,1],[8,1],[11,1],[14,1]], offbeat:[[2,1],[6,1],[10,1],[14,1]]};
 const triad = (key, [off, q]) => { const r = (key + off) % 12; return {root:r, pcs:(q === 'm' ? [0,3,7] : [0,4,7]).map(i => (r + i) % 12)}; };
 const voice = (pcs, lo) => pcs.map(pc => lo + ((pc - lo) % 12 + 12) % 12).sort((a, b) => a - b);
-function makeMelody(key, chords) { // catchy four-bar hook: chord tones on the beat, stepwise in between
-  const scale = []; for (let m = 67; m <= 82; m++) if (MINOR.includes(((m - key) % 12 + 12) % 12)) scale.push(m);
+function makeMelody(key, chords, lo, hi) { // four-bar hook: chord tones on the beat, stepwise in between
+  const scale = []; for (let m = lo; m <= hi; m++) if (MINOR.includes(((m - key) % 12 + 12) % 12)) scale.push(m);
   const a = pick(RHY), b = Math.random() < 0.65 ? a : pick(RHY);
   const pattern = a.concat(b.map(([s, l]) => [s + 32, l]));
   let prev = scale[Math.floor(scale.length / 2)];
@@ -282,71 +295,101 @@ function makeMelody(key, chords) { // catchy four-bar hook: chord tones on the b
   });
   return mel;
 }
+let styleBag = [];
+function makeTrack(prev) {
+  if (!styleBag.length) styleBag = Object.keys(STYLES).sort(() => Math.random() - 0.5);
+  if (prev && styleBag[0] === prev.styleName) styleBag.push(styleBag.shift());
+  const styleName = styleBag.shift(), style = STYLES[styleName];
+  const key = pick([0,2,4,5,7,9,10].filter(k => !prev || k !== prev.key));
+  const progA = pick(PROGS), progB = Math.random() < 0.5 ? progA : pick(PROGS.filter(p => p !== progA));
+  const chA = progA.map(c => triad(key, c)), chB = progB.map(c => triad(key, c));
+  const [lo, hi] = style.lead === 'flute' || style.soft === 'piano' ? [69, 84] : [67, 82];
+  const melA = makeMelody(key, chA, lo, hi), melB = progB === progA && Math.random() < 0.5 ? melA : makeMelody(key, chB, lo, hi);
+  const plan = [['Intro',8,'A'],['Groove',8,'A'],['Breakdown',8,'A'],['Build',8,'A'],['Drop',16,'A'],
+    ['Groove',8,'B'],['Breakdown',pick([4,8]),'B'],['Build',8,'B'],['Drop',pick([16,24]),'B'],['Outro',8,'B']];
+  const bars = [];
+  plan.forEach(([name, len, part]) => { for (let bi = 0; bi < len; bi++) bars.push({name, bi, len, part}); });
+  return {styleName, style, key, bars, ch:{A:chA, B:chB}, mel:{A:melA, B:melB}};
+}
+function cutoffFor(b) {
+  if (!b) return 600;
+  const f = b.bi / b.len, ex = (x, y) => x * Math.pow(y / x, f);
+  return {Intro:ex(500,3500), Groove:ex(3500,5500), Breakdown:ex(900,2600), Build:ex(700,16000), Drop:16000, Outro:ex(5000,700)}[b.name];
+}
 
-const sessionKey = pick([9, 5, 7, 2, 0]); // A, F, G, D or C minor, fixed for the session
-let bar = 0, stepInBar = 0, cyc = null, cutNow = 3000;
-function newCycle() {
-  const keep = cyc && Math.random() < 0.4;
-  const prog = keep ? cyc.prog : pick(PROGS.filter(p => !cyc || p !== cyc.prog));
-  const chords = prog.map(c => triad(sessionKey, c));
-  cyc = {n: cyc ? cyc.n + 1 : 0, prog, chords, melody: keep ? cyc.melody : makeMelody(sessionKey, chords)};
-}
-function cutoffAt(pos) {
-  const ph = phaseOf(pos % CYCLE), f = ph.bi / ph.len, ex = (a, b) => a * Math.pow(b / a, f);
-  return {Groove:ex(2500, 5000), Breakdown:ex(900, 2600), Build:ex(700, 16000), Drop:16000}[ph.name];
-}
+let track = null, tbar = 0, stepInBar = 0, cutNow = 600, playedBars = 0;
 function playStep(t, spb) {
-  const s = stepInBar, pos = bar % CYCLE;
-  if (s === 0 && (pos === 0 || !cyc)) newCycle();
-  const ph = phaseOf(pos), name = ph.name, k = S.energy === 'on' ? st.energy : 0.6;
-  const ch = cyc.chords[bar % 4], melStep = (ph.bi % 4) * 16 + s;
-  const lastBuildBar = name === 'Build' && ph.bi === ph.len - 1;
-  const gap = lastBuildBar && s >= 12; // the classic silent beat before the drop
+  const s = stepInBar;
+  if (s === 0 && (!track || tbar >= track.bars.length)) {
+    track = makeTrack(track); tbar = 0;
+    fader.gain.cancelScheduledValues(t); fader.gain.setValueAtTime(0.0001, t); fader.gain.exponentialRampToValueAtTime(1, t + spb * 16 * 2);
+  }
+  const b = track.bars[tbar], name = b.name, sty = track.style, k = S.energy === 'on' ? st.energy : 0.6;
+  const ch = track.ch[b.part][tbar % 4], mel = track.mel[b.part], melStep = (b.bi % 4) * 16 + s;
+  const lastBuildBar = name === 'Build' && b.bi === b.len - 1, gap = lastBuildBar && s >= 12;
+  const outroLate = name === 'Outro' && b.bi >= 4;
 
   if (s === 0) {
-    const next = cutoffAt(pos + 1);
+    const next = cutoffFor(track.bars[tbar + 1]) || 600;
     sweep.frequency.setValueAtTime(cutNow, t); sweep.frequency.exponentialRampToValueAtTime(next, t + spb * 16);
     cutNow = next;
     delay.delayTime.setTargetAtTime(spb * 3, t, 0.05); // dotted-eighth echo follows the tempo
+    if (name === 'Outro' && b.bi === 4) { fader.gain.setValueAtTime(1, t); fader.gain.exponentialRampToValueAtTime(0.0001, t + spb * 16 * 4); }
   }
 
   // drums
-  const kickOn = name === 'Drop' || name === 'Groove' || (name === 'Build' && !lastBuildBar);
-  if (kickOn && s % 4 === 0) { kick(t); duck(t, spb, name === 'Drop' ? 0.75 : 0.6); }
-  if ((name === 'Drop' || (name === 'Groove' && ph.bi >= 2)) && (s === 4 || s === 12)) clap(t);
-  if ((name === 'Drop' || name === 'Groove') && s % 4 === 2) hat(t, true);
-  if ((name === 'Drop' || (name === 'Groove' && k > 0.5)) && s % 2 === 1) hat(t, false, 0.7);
-  if ((name === 'Drop' || name === 'Groove') && k > 0.3 && s % 2 === 1) shaker(t, 0.5 + 0.5 * k);
+  const groovy = name === 'Drop' || name === 'Groove' || name === 'Intro' || name === 'Outro';
+  const kickOn = groovy || (name === 'Build' && !lastBuildBar);
+  if (kickOn && s % 4 === 0) { kick(t); duck(t, spb, name === 'Drop' ? sty.pump : sty.pump * 0.8); }
+  if ((name === 'Drop' || name === 'Groove' || (name === 'Intro' && b.bi >= 4) || (name === 'Outro' && !outroLate)) && (s === 4 || s === 12)) sty.hit === 'snare' ? snare(t, 0.8) : clap(t);
+  if (groovy && s % 4 === 2) hat(t, true);
+  if ((name === 'Drop' && (sty.hats16 || k > 0.3) || (name === 'Groove' && k > 0.5)) && s % 2 === 1) hat(t, false, 0.7);
+  if (groovy && (sty.shaker || k > 0.4) && s % 2 === 1 && name !== 'Intro') shaker(t, 0.5 + 0.5 * k);
   if (name === 'Build' && !gap) {
-    const every = ph.bi < 4 ? 4 : ph.bi < 6 ? 2 : 1;
-    if (s % every === 0) snare(t, 0.25 + 0.65 * ((ph.bi * 16 + s) / (ph.len * 16)));
+    const every = b.bi < 4 ? 4 : b.bi < 6 ? 2 : 1;
+    if (s % every === 0) snare(t, 0.25 + 0.65 * ((b.bi * 16 + s) / (b.len * 16)));
   }
-  if (name === 'Build' && ph.bi === 0 && s === 0) riser(t, spb * 16 * ph.len - spb * 4);
-  if (name === 'Drop' && s === 0 && ph.bi % 8 === 0) { crash(t); if (ph.bi === 0) boom(t); }
+  if (name === 'Build' && b.bi === 0 && s === 0) riser(t, spb * 16 * b.len - spb * 4);
+  if (name === 'Drop' && s === 0 && b.bi % 8 === 0) { crash(t); if (b.bi === 0) boom(t); }
 
-  // offbeat bass (the house/EDM bounce), plus a sub note on the downbeat in the drop
+  // bass
   const bn = 36 + ((ch.root - 36) % 12 + 12) % 12;
-  if ((name === 'Drop' || name === 'Groove' || (name === 'Build' && ph.bi >= 4 && !lastBuildBar)) && s % 4 === 2) note(t, bn, spb * 1.6, P.bass, 1, musicIn);
-  if (name === 'Drop' && s === 0) note(t, bn - 12, spb * 3, P.bass, 0.8, musicIn);
+  const bassOn = name === 'Drop' || name === 'Groove' || (name === 'Intro' && b.bi >= 4) || (name === 'Outro' && !outroLate) || (name === 'Build' && b.bi >= 4 && !lastBuildBar);
+  if (bassOn) {
+    const B = sty.bass;
+    if (B === 'offbeat' && s % 4 === 2) note(t, bn, spb * 1.6, P.bass, 1, musicIn);
+    if (B === 'octaves' && s % 2 === 0) note(t, bn + (s % 4 === 2 ? 12 : 0), spb * 1.4, P.bass, 1, musicIn);
+    if (B === 'rolling' && s % 4 !== 0) note(t, bn, spb * 0.85, P.bass, 0.85, musicIn);
+    if (B === 'dotted') [[0,0,5],[6,0,4],[10,0,4],[14,12,2]].forEach(([st16, o, l]) => { if (st16 === s) note(t, bn + o, spb * l * 0.9, P.bass, 1, musicIn); });
+    if (name === 'Drop' && s === 0 && B === 'offbeat') note(t, bn - 12, spb * 3, P.bass, 0.8, musicIn);
+  }
 
   // chords through the pumping filter bus
-  if (s === 0 && name !== 'Drop' && !lastBuildBar) voice(ch.pcs, 57).forEach(m => note(t, m, spb * 15.5, P.pad, name === 'Breakdown' ? 1.1 : 0.8, musicIn));
-  if (s === 0 && name === 'Drop') { const v = voice(ch.pcs, 57); v.concat([v[0] + 12]).forEach(m => note(t, m, spb * 15, P.saws, 1, musicIn)); }
-
-  // groove arpeggio, busier at speed
-  if (name === 'Groove' && (s % 2 === 0 || k > 0.6)) {
-    const tones = voice(ch.pcs, 64).concat([voice(ch.pcs, 64)[0] + 12]);
-    note(t, tones[(s % 2 === 0 ? s / 2 : s) % 4], spb * 0.9, P.arp, s % 2 ? 0.6 : 1);
+  const v = voice(ch.pcs, 57);
+  if (name === 'Breakdown' || name === 'Intro' || (name === 'Build' && !lastBuildBar) || ((name === 'Groove' || name === 'Outro') && sty.pat === 'sustain')) {
+    if (s === 0 && !outroLate) v.forEach(m => note(t, m, spb * 15.5, P.pad, name === 'Breakdown' ? 1.1 : 0.8, musicIn));
   }
-  // the hook: soft pluck in the breakdown and build, full supersaw lead in the drop
-  const hook = cyc.melody.get(melStep);
+  if (name === 'Drop' || ((name === 'Groove' || (name === 'Outro' && !outroLate)) && sty.pat !== 'sustain')) {
+    if (sty.pat === 'sustain') { if (s === 0) v.concat([v[0] + 12]).forEach(m => note(t, m, spb * 15, P[sty.chord], 1, musicIn)); }
+    else CHORD_PATS[sty.pat].forEach(([st16, l]) => { if (st16 === s) v.concat([v[0] + 12]).forEach(m => note(t, m, spb * l * 0.9, P[sty.chord], 1, musicIn)); });
+  }
+
+  // arpeggio
+  const arpOn = (sty.arp === 'groove' && name === 'Groove') || (sty.arp === 'drop' && name === 'Drop') ||
+    (sty.arp === 'always' && (name === 'Groove' || name === 'Drop' || name === 'Build' || name === 'Breakdown'));
+  if (arpOn && (s % 2 === 0 || k > 0.6 || sty.arp === 'always')) {
+    const tones = voice(ch.pcs, 64).concat([voice(ch.pcs, 64)[0] + 12]);
+    note(t, tones[s % 4], spb * 0.9, P.arp, s % 2 ? 0.6 : name === 'Breakdown' ? 0.7 : 1);
+  }
+  // the hook: soft version in the breakdown and build, full lead in the drop
+  const hook = mel.get(melStep);
   if (hook && !gap) {
-    if (name === 'Drop') note(t, hook.m, hook.l * spb * 0.92, P.lead);
-    else if (name === 'Breakdown' || name === 'Build') note(t, hook.m, hook.l * spb * 0.92, P.pluck, name === 'Build' ? 0.8 : 1);
+    if (name === 'Drop') note(t, hook.m, hook.l * spb * 0.92, P[sty.lead]);
+    else if (name === 'Breakdown' || name === 'Build') note(t, hook.m, hook.l * spb * 0.92, P[sty.soft], name === 'Build' ? 0.8 : 1);
   }
 
   stepInBar++;
-  if (stepInBar === 16) { stepInBar = 0; bar++; }
+  if (stepInBar === 16) { stepInBar = 0; tbar++; playedBars++; }
 }
 let grooveTimer = null, nextTime = 0;
 function startGroove() {
@@ -359,7 +402,7 @@ function startGroove() {
     }
   }, 25);
 }
-function stopGroove() { clearInterval(grooveTimer); grooveTimer = null; if (stepInBar) { stepInBar = 0; bar++; } }
+function stopGroove() { clearInterval(grooveTimer); grooveTimer = null; if (stepInBar) { stepInBar = 0; tbar++; playedBars++; } }
 
 /* ---------- GPS speed ---------- */
 let watchId = null, lastPos = null;
